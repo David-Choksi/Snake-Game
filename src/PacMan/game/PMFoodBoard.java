@@ -3,11 +3,11 @@ package PacMan.game;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PMGameBoard {
+public class PMFoodBoard {
 	
 	private Map<RowCol,Integer> food = new HashMap<RowCol,Integer>();
 	
-	public PMGameBoard(){
+	public PMFoodBoard(){
 		reSetBoard();
 	}
 	public void reSetBoard(){
@@ -124,7 +124,7 @@ public class PMGameBoard {
 	}
 	
 	public static void main(String[] args){
-		PMGameBoard game = new PMGameBoard();
+		PMFoodBoard game = new PMFoodBoard();
 		for (int i =1; i<27; i++){
 			System.out.println(game.getFood(1, i));
 

@@ -9,6 +9,10 @@ public class RowCol {
 		this.row = row;
 		this.column= col;
 	}
+	public RowCol(){
+		this.row = 0;
+		this.column= 0;
+	}
 	public RowCol(RowCol other){
 		this.row = other.row();
 		this.column = other.col();
