@@ -2,6 +2,8 @@ package snakes.game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JOptionPane;
 
@@ -10,7 +12,7 @@ import javax.swing.JOptionPane;
  * is an aggregation of a model and a view.
  *
  */
-public class Controller implements ActionListener {
+public class Controller implements ActionListener, KeyListener {
 
 	private Model model;
 	private View view;
@@ -47,15 +49,8 @@ public class Controller implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if (action.equals(View.NEW_GAME)) {
-			view.clear();
-			View.setDie(5);
-			View.setFood(1);
-			view.randomFood(View.getFood());
-			view.randomDie(View.getDie());
-			model.shuffle();
+			model.newGame();
 
-			view.setTimer(100);
-			view.run();
 
 		} 
 		else if (action.equals(View.NEW_ADVANCED_GAME)) {
@@ -64,10 +59,7 @@ public class Controller implements ActionListener {
 			View.setFood(1);
 			view.randomFood(View.getFood());
 			view.randomDie(View.getDie());
-			model.shuffle();
 
-			view.setTimer(60);
-			view.run();
 		} 
 		else if (action.equals(View.EXIT)) {
 		
@@ -87,6 +79,43 @@ public class Controller implements ActionListener {
 
 			this.view.dispose();
 		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println(e);
+		if (e.getKeyCode() == 37){
+			model.leftPressed();
+		}
+		else if (e.getKeyCode() == 38){
+			model.upPressed();
+		}
+		else if (e.getKeyCode() == 39){
+			model.rightPressed();
+		}
+		else if (e.getKeyCode() == 40){
+			model.downPressed();
+		}	else if (e.getKeyCode() == 113){
+			model.f2Pressed();  // new game
+			
+		}
+		else if (e.getKeyCode() == 32){
+			model.spacePressed();   //pause game using spacebar
+		}
+	}
+		
+	
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -87,15 +87,7 @@ public class Snake {
 	public void setLength(int length) {
 		this.length = length;
 	}
-	
-//	public static void main(String[] args){
-//		Snake snake = new Snake();
-//		System.out.println(snake);
-//		snake.move();
-//		snake.changeDirection("UP");
-//		snake.move();
-//		System.out.println(snake);
-//	}
+
 }
 
 

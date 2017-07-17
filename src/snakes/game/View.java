@@ -3,23 +3,16 @@ package snakes.game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
 
 
 
@@ -28,10 +21,15 @@ import javax.swing.Timer;
  *
  */
 @SuppressWarnings("serial")
-public class View extends JFrame implements KeyListener, ActionListener{
-	private Timer timer;
-	private int rows;
-	private int cols;
+public class View extends JFrame {
+	public static final String GAME_NAME = "SNAKE GAME";
+	public static final String NEW_GAME = "NEW GAME";
+	public static final String MENU_NAME = "GAME";
+	public static final String MENU_HELP = "HELP";
+	public static final String NEW_ADVANCED_GAME = "NEW ADVANCED GAME";
+	public static final String EXIT = "EXIT";
+	public static final int GAME_WIDTH=40;
+	public static final int GAME_HEIGHT=25;
 	public JLabel[][] labels;
 	private static int food;
 	private  ArrayList<RowCol> foodLocation = new ArrayList<RowCol>();
@@ -41,74 +39,26 @@ public class View extends JFrame implements KeyListener, ActionListener{
 	public static void setFood(int food) {
 		View.food = food;
 	}
-
 	public static void setDie(int die) {
 		View.die = die;
 	}
 
-	/**
-	 * The action command for a new game.
-	 */
-	public static final String GAME_NAME = "SNAKE GAME";
-	/**
-	 * The action command for a new game.
-	 */
-	public static final String NEW_GAME = "NEW GAME";
-
-	/**
-	 * The action command for a new game.
-	 */
-	public static final String MENU_NAME = "GAME";
-	/**
-	 * The action command for a new game.
-	 */
-	public static final String MENU_HELP = "HELP";
-	
-
-	/**
-	 * The action command for a new advanced game.
-	 */
-	public static final String NEW_ADVANCED_GAME = "NEW ADVANCED GAME";
-	/**
-	 * The action command to exit the application. 
-	 */
-	public static final String EXIT = "EXIT";
-
-	/**
-	 * Initializes the view for a sliding puzzle game played
-	 * on a grid with the given number of rows and columns.
-	 * 
-	 * @param rows the number of rows in the sliding puzzle
-	 * @param cols the number of columns in the sliding puzzle
-	 * @param listener the action listener (controller)
-	 * @throws InterruptedException 
-	 */
-	public View(int rows, int cols, ActionListener listener)  {
+	public View(ActionListener listener, KeyListener keyListener)  {
 		super(GAME_NAME);
-		this.rows = rows;
-		this.cols = cols;
-		this.timer = new Timer(100 , this);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.makeMenu(listener);
-		this.getContentPane().setLayout(new GridLayout(this.rows, this.cols));
-		this.addKeyListener(this);
+		
+		this.getContentPane().setLayout(new GridLayout(GAME_HEIGHT, GAME_WIDTH));
+		this.addKeyListener(keyListener);
 		this.makeLabels(listener);
 		this.pack();
 		this.setVisible(true);
 	
 	}
 	
-	public void setTimer(int time){
-		this.timer = new Timer(time , this);
-	}
-	
-	public void run() {
-		timer.start();
-	}
-
 	public void clear(){
-		for (int i = 0 ; i<this.rows; i++){
-			for (int j = 0; j<this.cols; j++){
+		for (int i = 0 ; i<GAME_WIDTH; i++){
+			for (int j = 0; j<GAME_HEIGHT; j++){
 				labels[i][j].setText("");
 				labels[i][j].setOpaque(false);
 				labels[i][j].setBackground(Color.BLUE);
@@ -171,9 +121,9 @@ public class View extends JFrame implements KeyListener, ActionListener{
 	 * events
 	 */
 	private void makeLabels(ActionListener listener) {
-		this.labels = new JLabel[rows][cols];
-		for (int i = 0 ; i<this.rows; i++){
-			for (int j = 0; j<this.cols; j++){
+		this.labels = new JLabel[GAME_WIDTH][GAME_HEIGHT];
+		for (int i = 0 ; i<GAME_WIDTH; i++){
+			for (int j = 0; j<GAME_HEIGHT; j++){
 				JLabel b = new JLabel("");
 		
 				b.setForeground(Color.BLACK);
@@ -220,8 +170,8 @@ public class View extends JFrame implements KeyListener, ActionListener{
 		for (int k=0; k<max ;k++){
 			while (!done){
 				Random rdm = new Random();
-				int i = rdm.nextInt(this.rows);
-				int j = rdm.nextInt(this.cols);
+				int i = rdm.nextInt(GAME_WIDTH);
+				int j = rdm.nextInt(GAME_HEIGHT);
 				if (labels[i][j].getText().equals("")){
 					labels[i][j].setText("F");
 					labels[i][j].setForeground(Color.GREEN);
@@ -237,8 +187,8 @@ public class View extends JFrame implements KeyListener, ActionListener{
 	public void randomDie(int max){
 		for (int k=0; k<max ;k++){
 			Random rdm = new Random();
-			int i = rdm.nextInt(this.rows);
-			int j = rdm.nextInt(this.cols);
+			int i = rdm.nextInt(GAME_WIDTH);
+			int j = rdm.nextInt(GAME_HEIGHT);
 			labels[i][j].setText("D");
 			labels[i][j].setForeground(Color.BLACK);
 			labels[i][j].setOpaque(true);
@@ -247,162 +197,6 @@ public class View extends JFrame implements KeyListener, ActionListener{
 		}
 	}
 
-	/**
-	 * Sets the button at the given location to the empty tile.
-	 * The button text for the empty tile is the empty string.
-	 * Also sets the action command string for the button to
-	 * the empty string.
-	 * 
-	 * @param loc the row and column of the button to set as
-	 * the empty tile
-	 */
-	public void setEmpty(RowCol loc) {
-			labels[loc.row()][loc.col()].setText("");
-	}
-	
-	/**
-	 * Sets the text of the button at the given location to the
-	 * given text. Also sets the action command string for the
-	 * button to the given text.
-	 * 
-	 * @param loc the row and column of the button to set the text of
-	 * @param label the text for the button label
-	 */
-	public void setLocation(RowCol loc, String label) {
-		labels[loc.row()][loc.col()].setText(label);
-	
-	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		System.out.println(e);
-		if (e.getKeyCode() == 37){
-			if(!(snake.getDirection().equals("LEFT") ||snake.getDirection().equals("RIGHT"))){
-//				System.out.println("LEFT");
-//				System.out.println(e);
-				snake.changeDirection("LEFT");
-//				showSnakeGone();
-				checkFinish();
-//				snake.move();
-//				showSnake();
-			}
-		}
-		else if (e.getKeyCode() == 38){
-			if(!(snake.getDirection().equals("UP") ||snake.getDirection().equals("DOWN"))){
-				
-//				System.out.println("UP");
-//				System.out.println(e);
-				snake.changeDirection("UP");
-//				showSnakeGone();
-				checkFinish();
-//				snake.move();
-//				showSnake();;
-			}
-		}
-		else if (e.getKeyCode() == 39){
-			if(!(snake.getDirection().equals("LEFT") ||snake.getDirection().equals("RIGHT"))){
-				
-//				System.out.println("RIGHT");
-//				System.out.println(e);
-				snake.changeDirection("RIGHT");
-//				showSnakeGone();
-				checkFinish();
-//				snake.move();
-//				showSnake();
-
-			}
-		}
-		else if (e.getKeyCode() == 40){
-			if(!(snake.getDirection().equals("UP") ||snake.getDirection().equals("DOWN"))){
-				
-//				System.out.println("DOWN");
-//				System.out.println(e);
-				snake.changeDirection("DOWN");
-//				showSnakeGone();
-				checkFinish();
-//				snake.move();
-//				showSnake();
-		
-			}
-		}	else if (e.getKeyCode() == 113){
-				clear();
-				View.setDie(5);
-				View.setFood(1);
-				randomFood(View.getFood());
-				randomDie(View.getDie());
-				timer.stop();
-				timer = new Timer(100, this);
-				run();
-
-		
-			
-		}
-		else if (e.getKeyCode() == 32){
-			if (timer.isRunning()){
-			
-				timer.stop();
-			}
-			else{
-				timer.start();
-			}
-		}
-	}
-	private boolean checkDeath(){
-		//check to see if ate a death piece.
-		return false;
-	}
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void checkFinish(){
-		boolean check = true;
-		if (checkDeath() || (!(snake.checkMove(rows, cols)))){
-			timer.stop();
-			JOptionPane.showMessageDialog(null, "YOU LOSE.  Your score is: " + (snake.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
-
-		}
-		else{
-			if (foodLocation.contains(new RowCol(snake.getRow(), snake.getCol()))){
-				snake.addLength();
-				foodLocation.remove(new RowCol(snake.getRow(), snake.getCol()));
-				randomFood(1);
-			}
-			else if (dieLocation.contains(new RowCol(snake.getRow(), snake.getCol()))){
-				timer.stop();
-				JOptionPane.showMessageDialog(null, "YOU LOSE.  Your score is: " + (snake.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
-
-				
-			}
-		
-			else{
-				showSnakeGone();
-				snake.move();
-	
-				if (labels[snake.getRow()][snake.getCol()].getBackground().equals(Color.RED)){
-					timer.stop();
-					JOptionPane.showMessageDialog(null, "YOU LOSE.  Your score is: " + (snake.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
-
-					check = false;
-				}
-				if (check){
-					showSnake();
-				}
-			}
-		}
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		checkFinish();
-	}
 	
 }

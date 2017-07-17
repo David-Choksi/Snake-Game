@@ -35,6 +35,8 @@ public class RowCol {
 		RowCol preCol = new RowCol(this.row(), (this.col()-1));
 		return preCol;
 	}
+	
+	
 	@Override
 	public boolean equals(Object obj){
 		if (obj == null){

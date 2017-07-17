@@ -1,37 +1,36 @@
 package snakes.game;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.TreeMap;
 
-
-import java.util.Random;
-import java.util.Set;
-
+import javax.swing.JOptionPane;
 
 public class Model {
-	public int row;
-	public int col;
-	public Map<String, Integer> values = new TreeMap<String, Integer>();
+	private static final String UPDIRECTION = "UP";
+	private static final String DOWNDIRECTION = "DOWN";
+	private static final String LEFTDIRECTION = "LEFT";
+	private static final String RIGHTDIRECTION = "RIGHT";
+	private int row;
+	private int col;
+	private View view;
+	private Snake player1= new Snake();
+
 	
-	public Model (int rows, int cols){
-		this.row = rows;
-		this.col = cols;
-		int value = 1;
-		for (int i = 0; i<rows-1; i++){
-			for (int j = 0; j<cols; j++){
-				values.put("" + i + j, value);
-				value++;
-			}
-		}
-		for (int k = 0; k<cols-1; k++){
-			values.put("" + (rows-1) + k, value);
-			value++;
-		}
-		values.put("" + (rows-1)+(cols-1), 0);
+	public Model (){
+		this.row = View.GAME_WIDTH;
+		this.col = View.GAME_HEIGHT;
+
+	}
+
+	public void newGame(){
+		view.clear();
+		View.setDie(5);
+		View.setFood(1);
+		view.randomFood(View.getFood());
+		view.randomDie(View.getDie());
 	}
 	
-
+	public void setView(View view){
+		this.view = view;
+	}
 	public int rows(){
 		return this.row;
 	}
@@ -39,114 +38,45 @@ public class Model {
 	public int cols(){
 		return this.col;
 	}
-	
-	public int getValue(RowCol loc){
-		return values.get("" + loc.row() + loc.col());
-	}
-	
-	public boolean isEmpty(RowCol loc){
-		if (getValue(loc)==0){
-			return true;
-		}
-		return false;
-	}
-	
-	public RowCol getEmpty(){
-		for (int i = 0; i<this.row; i++){
-			for (int j =0; j<this.col; j++){
-				if (values.get(""+i+j)==0){
-					RowCol newOne = new RowCol(i,j);
-					return newOne;
-				}
-			}
-		}
-		return null;
-	}
-	public void shuffle(){
-		int max = this.row * this.col;
 
-		Random rng = new Random(); // Ideally just create one instance globally
-		// Note: use LinkedHashSet to maintain insertion order
-		Set<Integer> generated = new LinkedHashSet<Integer>();
-		while (generated.size() < max)
-		{
-		    Integer next = rng.nextInt(max);
-		    // As we're adding to a set, this will automatically do a containment check
-		    generated.add(next);
-		}
-		int val = 0;
-		for (int i = 0; i<this.row; i++){
-			for (int j = 0; j<this.col; j++){
-				values.put("" + i + j, (int) generated.toArray()[val]);
-				val++;
-			}
-		}
+	private void checkFinish(){
 
 	}
-	public boolean isSolved(){
-		Model model = new Model(this.row,this.col);
-		if (model.equals(this)){
-			return true;
-		}
-		return false;
-	}
 	
-	public boolean move(RowCol loc){
-		if (isEmpty(loc)){
-			return false;
+	public void leftPressed(){
+		if(!(player1.getDirection().equals(LEFTDIRECTION) ||player1.getDirection().equals(RIGHTDIRECTION))){
+			checkFinish();
 		}
-		RowCol position = new RowCol(loc);
-		position = loc.nextCol();
-		if (position.col()< this.cols() && position.col()>=0){
-			if (isEmpty(position)){
-				values.put("" + position.row() + position.col(), values.get("" + loc.row() + loc.col()));
-				values.put("" + loc.row() + loc.col(), 0);
-				return true;
-			}
-		}
-		position = loc.prevCol();
-		if (position.col()<= this.cols() && position.col()>=0){
-			if (isEmpty(position)){
-				values.put("" + position.row() + position.col(), values.get("" + loc.row() + loc.col()));
-				values.put("" + loc.row() + loc.col(), 0);
-				return true;
-			}
-		}
-		position = loc.nextRow();
-		if (position.row()< this.rows() && position.row()>=0){
-			if (isEmpty(position)){
-				values.put("" + position.row() + position.col(), values.get("" + loc.row() + loc.col()));
-				values.put("" + loc.row() + loc.col(), 0);
-				return true;
-			}
-		}
-		position = loc.prevRow();
-		if (position.row()< this.rows() && position.row()>=0){
-			if (isEmpty(position)){
-				values.put("" + position.row() + position.col(), values.get("" + loc.row() + loc.col()));
-				values.put("" + loc.row() + loc.col(), 0);
-				return true;
-			}
-		}
-		return false;		
 	}
-	@Override
-	public boolean equals(Object obj){
-		if (obj == null){
-			return false;
+	public void rightPressed(){
+		if(!(player1.getDirection().equals(LEFTDIRECTION) ||player1.getDirection().equals(RIGHTDIRECTION))){
+			checkFinish();
+		
 		}
-		if (!(obj instanceof Model)){
-			return false;
-		}
-		Model model = (Model)obj;
-		for (int i = 0; i<this.row; i++){
-			for (int j = 0; j<this.col; j++){
-				if (!(values.get(""+i+j)==model.values.get("" + i + j))){
-					return false;
-				}
-			}
-		}
-		return true;
 	}
+	public void upPressed(){
+		if(!(player1.getDirection().equals(UPDIRECTION) ||player1.getDirection().equals(DOWNDIRECTION))){
+			checkFinish();
+			
+		}
+	}
+	public void downPressed(){
+		if(!(player1.getDirection().equals(UPDIRECTION) ||player1.getDirection().equals(DOWNDIRECTION))){
+			checkFinish();
+			
+		}
+	}
+	public void f2Pressed(){
+		int check = JOptionPane.showOptionDialog(view,  "Do you want to start over?", null, 0,0, null, null, "Quit");
+		System.out.println(check);
+		if (check == 0 ){
+			// new game
+		}
+	}
+	public void spacePressed(){
+		checkFinish();
+
+	}
+
 
 }
