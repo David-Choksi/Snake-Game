@@ -64,7 +64,7 @@ public class Controller implements ActionListener, KeyListener {
 		else if (action.equals(View.EXIT)) {
 		
 			int check = JOptionPane.showOptionDialog(view, "Do you want to exit?", action, 0,0, null, null, "EXIT");
-			System.out.println(check);
+	
 			if (check == 0 ){
 				this.view.dispose();
 			}
@@ -83,7 +83,7 @@ public class Controller implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(e);
+
 		if (e.getKeyCode() == 37){
 			model.leftPressed();
 		}

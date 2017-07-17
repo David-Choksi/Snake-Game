@@ -16,16 +16,17 @@ public class Model {
 	private Snake player1= new Snake();
 	private Thread timer;
 	private Thread snakeTimer;
-	private boolean paused = false;
+	private boolean paused = true;
 	
 	public Model (){
-		this.row = View.GAME_WIDTH;
-		this.col = View.GAME_HEIGHT;
+		this.row = View.GAME_WIDTH-1;
+		this.col = View.GAME_HEIGHT-1;
 
 	}
 
 	@SuppressWarnings("deprecation")
 	public void newGame(){
+		paused = false;
 		player1 = new Snake();
 		view.clear();
 		View.setDie(5);
@@ -117,9 +118,6 @@ public class Model {
 		return this.col;
 	}
 
-	private void checkFinish(){
-
-	}
 	
 	public void leftPressed(){
 		if(!(player1.getDirection().equals(LEFTDIRECTION) ||player1.getDirection().equals(RIGHTDIRECTION))){
@@ -148,13 +146,22 @@ public class Model {
 			
 		}
 	}
+	@SuppressWarnings("deprecation")
 	public void f2Pressed(){
+		if (!paused){
+			snakeTimer.suspend();
+			timer.suspend();
+		}
 		int check = JOptionPane.showOptionDialog(view,  "Do you want to start a new game?", null, 0,0, null, null, "New Game");
-		System.out.println(check);
 		if (check == 0 ){
 			newGame();
 		}
+		else{
+			snakeTimer.resume();
+			timer.resume();
+		}
 	}
+	@SuppressWarnings("deprecation")
 	public void spacePressed(){
 		if (!paused){
 			snakeTimer.suspend();
@@ -168,5 +175,46 @@ public class Model {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
+	public void checkFinish(){
+		boolean check = true;
+		if ((!(player1.checkMove(rows(),cols())))){
+			timer.stop();
+			snakeTimer.stop();
+			JOptionPane.showMessageDialog(null, "YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
+	
+		}
+		else{
+			if (view.foodLocation.contains(new RowCol(player1.getRow(), player1.getCol()))){
+				player1.addLength();
+				view.foodLocation.remove(new RowCol(player1.getRow(), player1.getCol()));
+				view.randomFood(1);
+			}
+			else if (view.dieLocation.contains(new RowCol(player1.getCol(), player1.getRow()))){
+				timer.stop();
+				snakeTimer.stop();
+				JOptionPane.showMessageDialog(null, "YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
+	
+				
+			}
+		
+			else{
+				showSnakeGone();
+				player1.move();
+	
+				if (view.labels[player1.getRow()][player1.getCol()].getBackground().equals(Color.RED)){
+					timer.stop();
+					snakeTimer.stop();
+					JOptionPane.showMessageDialog(null, "YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
+	
+					check = false;
+				}
+				if (check){
+					showSnakeGone();
+					showSnake();
+				}
+			}
+		}
 
+	}
 }

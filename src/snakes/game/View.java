@@ -32,9 +32,9 @@ public class View extends JFrame {
 	public static final int GAME_HEIGHT=25;
 	public JLabel[][] labels;
 	private static int food;
-	private  ArrayList<RowCol> foodLocation = new ArrayList<RowCol>();
+	public  ArrayList<RowCol> foodLocation = new ArrayList<RowCol>();
 	private static int die;
-	private  ArrayList<RowCol> dieLocation = new ArrayList<RowCol>();
+	public  ArrayList<RowCol> dieLocation = new ArrayList<RowCol>();
 
 	public static void setFood(int food) {
 		View.food = food;
