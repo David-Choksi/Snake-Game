@@ -6,7 +6,7 @@ public class Snake {
 	private int length=0;
 	private  RowCol head;
 	private  ArrayList<RowCol> body = new ArrayList<RowCol>();
-	private String direction = "RIGHT";
+	private String direction = Model.RIGHTDIRECTION;
 	public void setHead(int row, int col){
 		head = new RowCol(row, col);
 	}
@@ -29,22 +29,22 @@ public class Snake {
 		setLength(getLength() + 1);
 	}
 	public boolean checkMove(int rows, int cols){
-		if (direction.equals("RIGHT")){
+		if (direction.equals(Model.RIGHTDIRECTION)){
 			if (head.col()+1>=cols){
 				return false;
 			}
 		}
-		if (direction.equals("LEFT")){
+		if (direction.equals(Model.LEFTDIRECTION)){
 			if (head.col()-1<0){
 				return false;
 			}
 		}
-		if (direction.equals("UP")){
+		if (direction.equals(Model.UPDIRECTION)){
 			if (head.row()-1<0){
 				return false;
 			}
 		}
-		if (direction.equals("DOWN")){
+		if (direction.equals(Model.DOWNDIRECTION)){
 			if (head.row()+1>=rows){
 				return false;
 			}
@@ -61,22 +61,23 @@ public class Snake {
 		body.remove(0);
 		body.add(head);
 		
-		if (direction.equals("RIGHT")){
+		if (direction.equals(Model.RIGHTDIRECTION)){
 			head = head.nextCol();
 		}
-		if (direction.equals("LEFT")){
+		if (direction.equals(Model.LEFTDIRECTION)){
 			head=head.prevCol();
 		}
-		if (direction.equals("UP")){
+		if (direction.equals(Model.UPDIRECTION)){
 			head = head.prevRow();
 		}
-		if (direction.equals("DOWN")){
+		if (direction.equals(Model.DOWNDIRECTION)){
 			head = head.nextRow();
 		}
 	}
 	public void changeDirection(String direction){
 		this.direction = direction;
 	}
+	
 	@Override
 	public String toString(){
 		return "Row: " + this.getRow() + ", Col: " + this.getCol();
@@ -84,6 +85,7 @@ public class Snake {
 	public int getLength() {
 		return length;
 	}
+	
 	public void setLength(int length) {
 		this.length = length;
 	}

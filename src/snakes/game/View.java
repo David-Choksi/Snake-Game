@@ -35,7 +35,7 @@ public class View extends JFrame {
 	private  ArrayList<RowCol> foodLocation = new ArrayList<RowCol>();
 	private static int die;
 	private  ArrayList<RowCol> dieLocation = new ArrayList<RowCol>();
-	private static Snake snake = new Snake();
+
 	public static void setFood(int food) {
 		View.food = food;
 	}
@@ -51,14 +51,15 @@ public class View extends JFrame {
 		this.getContentPane().setLayout(new GridLayout(GAME_HEIGHT, GAME_WIDTH));
 		this.addKeyListener(keyListener);
 		this.makeLabels(listener);
-		this.pack();
 		this.setVisible(true);
-	
+		this.pack();
+
 	}
 	
 	public void clear(){
-		for (int i = 0 ; i<GAME_WIDTH; i++){
-			for (int j = 0; j<GAME_HEIGHT; j++){
+		
+		for (int i = 0 ; i<GAME_HEIGHT; i++){
+			for (int j = 0; j<GAME_WIDTH; j++){
 				labels[i][j].setText("");
 				labels[i][j].setOpaque(false);
 				labels[i][j].setBackground(Color.BLUE);
@@ -66,8 +67,6 @@ public class View extends JFrame {
 		}
 		foodLocation.clear();
 		dieLocation.clear();
-		snake = new Snake();
-		showSnake();
 		
 	}
 	/**
@@ -121,13 +120,11 @@ public class View extends JFrame {
 	 * events
 	 */
 	private void makeLabels(ActionListener listener) {
-		this.labels = new JLabel[GAME_WIDTH][GAME_HEIGHT];
-		for (int i = 0 ; i<GAME_WIDTH; i++){
-			for (int j = 0; j<GAME_HEIGHT; j++){
-				JLabel b = new JLabel("");
-		
+		this.labels = new JLabel[GAME_HEIGHT][GAME_WIDTH];
+		for (int i = 0 ; i<GAME_HEIGHT; i++){
+			for (int j = 0; j<GAME_WIDTH; j++){
+				JLabel b = new JLabel(" ");
 				b.setForeground(Color.BLACK);
-				
 				b.setBackground(Color.BLACK);
 				b.setPreferredSize(new Dimension(20, 20));// set the preferred size of b
 				labels[i][j] = b;
@@ -135,27 +132,11 @@ public class View extends JFrame {
 			}
 		}
 		
-		showSnake();
 		
 		
 	}
 	
-	public void showSnakeGone(){
 
-		labels[snake.removing().row()][snake.removing().col()].setText("");
-		labels[snake.removing().row()][snake.removing().col()].setOpaque(false);
-		labels[snake.removing().row()][snake.removing().col()].setBackground(Color.BLUE);
-		labels[snake.removing().row()][snake.removing().col()].setForeground(Color.BLUE);
-	}
-	
-	public void showSnake(){
-		
-		labels[snake.getRow()][snake.getCol()].setText("S");
-		labels[snake.getRow()][snake.getCol()].setOpaque(true);		
-
-		labels[snake.getRow()][snake.getCol()].setBackground(Color.RED);
-		labels[snake.getRow()][snake.getCol()].setForeground(Color.RED);
-		}
 	
 	public static int getFood() {
 		return food;
@@ -170,8 +151,8 @@ public class View extends JFrame {
 		for (int k=0; k<max ;k++){
 			while (!done){
 				Random rdm = new Random();
-				int i = rdm.nextInt(GAME_WIDTH);
-				int j = rdm.nextInt(GAME_HEIGHT);
+				int i = rdm.nextInt(GAME_HEIGHT);
+				int j = rdm.nextInt(GAME_WIDTH);
 				if (labels[i][j].getText().equals("")){
 					labels[i][j].setText("F");
 					labels[i][j].setForeground(Color.GREEN);
@@ -187,8 +168,8 @@ public class View extends JFrame {
 	public void randomDie(int max){
 		for (int k=0; k<max ;k++){
 			Random rdm = new Random();
-			int i = rdm.nextInt(GAME_WIDTH);
-			int j = rdm.nextInt(GAME_HEIGHT);
+			int i = rdm.nextInt(GAME_HEIGHT);
+			int j = rdm.nextInt(GAME_WIDTH);
 			labels[i][j].setText("D");
 			labels[i][j].setForeground(Color.BLACK);
 			labels[i][j].setOpaque(true);

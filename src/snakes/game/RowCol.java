@@ -1,14 +1,20 @@
 package snakes.game;
 
 import java.util.Objects;
-
+/**
+ * 
+ * @author Jason
+ *  Creates a simple Row and column coordinates object.
+ */
 public class RowCol {
 	private int row;
 	private int column;
+
 	public RowCol(int row, int col){
 		this.row = row;
 		this.column= col;
 	}
+
 	public RowCol(RowCol other){
 		this.row = other.row();
 		this.column = other.col();
