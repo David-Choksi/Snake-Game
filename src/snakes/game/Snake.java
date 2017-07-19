@@ -28,30 +28,49 @@ public class Snake {
 		body.add(head);
 		setLength(getLength() + 1);
 	}
-	public boolean checkMove(int rows, int cols){
+	public boolean checkMove(){
 		if (direction.equals(Model.RIGHTDIRECTION)){
-			if (head.col()+1>=cols){
+			if (head.col()>=View.GAME_WIDTH){
+				System.out.println(View.GAME_WIDTH);
 				return false;
 			}
 		}
 		if (direction.equals(Model.LEFTDIRECTION)){
-			if (head.col()-1<0){
+			if (head.col()<0){
+				System.out.println("0 width");
 				return false;
 			}
 		}
 		if (direction.equals(Model.UPDIRECTION)){
-			if (head.row()-1<0){
+			if (head.row()<0){
+				System.out.println("0 height");
 				return false;
 			}
 		}
 		if (direction.equals(Model.DOWNDIRECTION)){
-			if (head.row()+1>=rows){
+			if (head.row()>=View.GAME_HEIGHT){
+				System.out.println(View.GAME_HEIGHT);
 				return false;
 			}
 		}
 		return true;
 	}
-	
+	public RowCol nextMove(){
+		if (direction.equals(Model.RIGHTDIRECTION)){
+			return head.nextCol();
+		}
+		if (direction.equals(Model.LEFTDIRECTION)){
+			return head.prevCol();
+		}
+		if (direction.equals(Model.UPDIRECTION)){
+			return head.prevRow();
+		}
+		if (direction.equals(Model.DOWNDIRECTION)){
+			return head.nextRow();
+		}
+		return head;
+		
+	}
 	public RowCol removing(){
 		return body.get(0);
 	}

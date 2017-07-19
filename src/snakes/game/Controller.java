@@ -54,11 +54,7 @@ public class Controller implements ActionListener, KeyListener {
 
 		} 
 		else if (action.equals(View.NEW_ADVANCED_GAME)) {
-			view.clear();
-			View.setDie(10);
-			View.setFood(1);
-			view.randomFood(View.getFood());
-			view.randomDie(View.getDie());
+
 
 		} 
 		else if (action.equals(View.EXIT)) {

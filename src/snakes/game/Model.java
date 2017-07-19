@@ -10,6 +10,9 @@ public class Model {
 	public static final String DOWNDIRECTION = "DOWN";
 	public static final String LEFTDIRECTION = "LEFT";
 	public static final String RIGHTDIRECTION = "RIGHT";
+	public static final int NUMBER_OF_FOOD = 1;
+	public static final int NUMBER_OF_DIE = 5;
+	public static int SNAKE_SPEED_TIME = 100;
 	private int row;
 	private int col;
 	private View view;
@@ -19,9 +22,6 @@ public class Model {
 	private boolean paused = true;
 	
 	public Model (){
-		this.row = View.GAME_WIDTH-1;
-		this.col = View.GAME_HEIGHT-1;
-
 	}
 
 	@SuppressWarnings("deprecation")
@@ -29,10 +29,8 @@ public class Model {
 		paused = false;
 		player1 = new Snake();
 		view.clear();
-		View.setDie(5);
-		View.setFood(1);
-		view.randomFood(View.getFood());
-		view.randomDie(View.getDie());
+		view.randomFood(NUMBER_OF_FOOD);
+		view.randomDie(NUMBER_OF_DIE);
 		if (!(timer == null)){
 			timer.stop();
 			snakeTimer.stop();
@@ -47,7 +45,9 @@ public class Model {
 					try {
 						counter++;
 						view.setTitle("Time:  " + counter);
-
+						if (counter %60==0){
+							SNAKE_SPEED_TIME += (-10);
+						}
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -70,9 +70,10 @@ public class Model {
 				while (true){
 					try {
 						player1.move();
+						checkFinish();
 						showSnake();
 						showSnakeGone();
-						Thread.sleep(100);
+						Thread.sleep(Model.SNAKE_SPEED_TIME);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -101,7 +102,6 @@ public class Model {
 		
 		view.labels[player1.getRow()][player1.getCol()].setText("S");
 		view.labels[player1.getRow()][player1.getCol()].setOpaque(true);		
-
 		view.labels[player1.getRow()][player1.getCol()].setBackground(Color.RED);
 		view.labels[player1.getRow()][player1.getCol()].setForeground(Color.RED);
 	}
@@ -178,37 +178,35 @@ public class Model {
 	@SuppressWarnings("deprecation")
 	public void checkFinish(){
 		boolean check = true;
-		if ((!(player1.checkMove(rows(),cols())))){
+		if (!(player1.checkMove())){
 			timer.stop();
 			snakeTimer.stop();
-			JOptionPane.showMessageDialog(null, "YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
+			JOptionPane.showMessageDialog(null, "CHECKMOVE:::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
 	
 		}
 		else{
-			if (view.foodLocation.contains(new RowCol(player1.getRow(), player1.getCol()))){
+			if (View.foodLocation.contains(new RowCol(player1.getRow(), player1.getCol()))){
 				player1.addLength();
-				view.foodLocation.remove(new RowCol(player1.getRow(), player1.getCol()));
+				View.foodLocation.remove(new RowCol(player1.getRow(), player1.getCol()));
 				view.randomFood(1);
 			}
-			else if (view.dieLocation.contains(new RowCol(player1.getCol(), player1.getRow()))){
+			else if (View.dieLocation.contains(new RowCol(player1.getRow(), player1.getCol()))){
 				timer.stop();
 				snakeTimer.stop();
-				JOptionPane.showMessageDialog(null, "YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
+				JOptionPane.showMessageDialog(null, "DIE::::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
 	
 				
 			}
 		
 			else{
-				showSnakeGone();
-				player1.move();
 	
-				if (view.labels[player1.getRow()][player1.getCol()].getBackground().equals(Color.RED)){
-					timer.stop();
-					snakeTimer.stop();
-					JOptionPane.showMessageDialog(null, "YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
-	
-					check = false;
-				}
+//				if (view.labels[player1.getRow()][player1.getCol()].getBackground().equals(Color.RED)){
+//					timer.stop();
+//					snakeTimer.stop();
+//					JOptionPane.showMessageDialog(null, "RED:::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
+//	
+//					check = false;
+//				}
 				if (check){
 					showSnakeGone();
 					showSnake();

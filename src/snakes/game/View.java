@@ -31,23 +31,14 @@ public class View extends JFrame {
 	public static final int GAME_WIDTH=40;
 	public static final int GAME_HEIGHT=25;
 	public JLabel[][] labels;
-	private static int food;
-	public  ArrayList<RowCol> foodLocation = new ArrayList<RowCol>();
-	private static int die;
-	public  ArrayList<RowCol> dieLocation = new ArrayList<RowCol>();
+	public static final ArrayList<RowCol> foodLocation = new ArrayList<RowCol>();
+	public static final ArrayList<RowCol> dieLocation = new ArrayList<RowCol>();
 
-	public static void setFood(int food) {
-		View.food = food;
-	}
-	public static void setDie(int die) {
-		View.die = die;
-	}
 
 	public View(ActionListener listener, KeyListener keyListener)  {
 		super(GAME_NAME);
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.makeMenu(listener);
-		
 		this.getContentPane().setLayout(new GridLayout(GAME_HEIGHT, GAME_WIDTH));
 		this.addKeyListener(keyListener);
 		this.makeLabels(listener);
@@ -136,15 +127,6 @@ public class View extends JFrame {
 		
 	}
 	
-
-	
-	public static int getFood() {
-		return food;
-	}
-
-	public static int getDie() {
-		return die;
-	}
 
 	public void randomFood(int max){
 		boolean done = false;
