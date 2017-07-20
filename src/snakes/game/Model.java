@@ -200,13 +200,13 @@ public class Model {
 		
 			else{
 	
-//				if (view.labels[player1.getRow()][player1.getCol()].getBackground().equals(Color.RED)){
-//					timer.stop();
-//					snakeTimer.stop();
-//					JOptionPane.showMessageDialog(null, "RED:::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
-//	
-//					check = false;
-//				}
+				if (player1.checkForSnake()){
+					timer.stop();
+					snakeTimer.stop();
+					JOptionPane.showMessageDialog(null, "RED:::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
+	
+					check = false;
+				}
 				if (check){
 					showSnakeGone();
 					showSnake();

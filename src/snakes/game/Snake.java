@@ -28,6 +28,15 @@ public class Snake {
 		body.add(head);
 		setLength(getLength() + 1);
 	}
+	
+	public boolean checkForSnake(){
+		if (body.contains(head)){
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public boolean checkMove(){
 		if (direction.equals(Model.RIGHTDIRECTION)){
 			if (head.col()>=View.GAME_WIDTH){
