@@ -13,6 +13,7 @@ public class Model {
 	public static final int NUMBER_OF_FOOD = 1;
 	public static final int NUMBER_OF_DIE = 5;
 	public static int SNAKE_SPEED_TIME = 100;
+	public static int SPEED_TIME_DECREASE = -10;
 	private int row;
 	private int col;
 	private View view;
@@ -35,7 +36,7 @@ public class Model {
 			timer.stop();
 			snakeTimer.stop();
 		}
-		
+
 		Runnable time = new Runnable(){
 			int counter = 0;
 			
@@ -46,7 +47,7 @@ public class Model {
 						counter++;
 						view.setTitle("Time:  " + counter);
 						if (counter %60==0){
-							SNAKE_SPEED_TIME += (-10);
+							SNAKE_SPEED_TIME += (SPEED_TIME_DECREASE);
 						}
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {

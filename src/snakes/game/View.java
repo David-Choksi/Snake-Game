@@ -3,11 +3,15 @@ package snakes.game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -28,6 +32,7 @@ public class View extends JFrame {
 	public static final String MENU_HELP = "HELP";
 	public static final String NEW_ADVANCED_GAME = "NEW ADVANCED GAME";
 	public static final String EXIT = "EXIT";
+	public static final String UP_ICON = "UPHead.gif";
 	public static final int GAME_WIDTH=40;
 	public static final int GAME_HEIGHT=25;
 	public JLabel[][] labels;
@@ -118,14 +123,16 @@ public class View extends JFrame {
 				b.setForeground(Color.BLACK);
 				b.setBackground(Color.BLACK);
 				b.setPreferredSize(new Dimension(20, 20));// set the preferred size of b
+				b.setVisible(true);
 				labels[i][j] = b;
+				Image img = Toolkit.getDefaultToolkit().createImage("UPHead.gif");
+				b.setIcon(new ImageIcon(img));
 				add(b);
 			}
 		}
+		this.update(null);
 		
-		
-		
-	}
+		}
 	
 
 	public void randomFood(int max){
@@ -163,3 +170,8 @@ public class View extends JFrame {
 
 	
 }
+
+
+
+
+
