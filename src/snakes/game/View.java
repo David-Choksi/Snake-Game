@@ -49,6 +49,7 @@ public class View extends JFrame {
 		this.makeLabels(listener);
 		this.setVisible(true);
 		this.pack();
+		
 
 	}
 	

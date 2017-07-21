@@ -30,10 +30,10 @@ public class Snake {
 	}
 	
 	public boolean checkForSnake(){
-		if (body.contains(head)){
-			return true;
-		}
-		
+//		if (body.contains(head)){
+//			return true;
+//		}
+//		
 		return false;
 	}
 	
