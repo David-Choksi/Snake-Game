@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 
 
@@ -52,6 +54,11 @@ public class View extends JFrame {
 
 	}
 	
+	public int promptForMusic(){
+		return JOptionPane.showOptionDialog(this,  "Do you want to play some James Brown?", null, 0,0, null, null, "Music");
+		
+	}
+	
 	public void clear(){
 		
 		for (int i = 0 ; i<GAME_HEIGHT; i++){
@@ -59,6 +66,7 @@ public class View extends JFrame {
 				labels[i][j].setText("");
 				labels[i][j].setOpaque(false);
 				labels[i][j].setBackground(Color.BLUE);
+				labels[i][j].setIcon(null);
 			}
 		}
 		foodLocation.clear();
@@ -125,12 +133,11 @@ public class View extends JFrame {
 				b.setPreferredSize(new Dimension(20, 20));// set the preferred size of b
 				b.setVisible(true);
 				labels[i][j] = b;
-				Image img = Toolkit.getDefaultToolkit().createImage("UPHead.gif");
-				b.setIcon(new ImageIcon(img));
+				
 				add(b);
 			}
 		}
-		this.update(null);
+		
 		
 		}
 	

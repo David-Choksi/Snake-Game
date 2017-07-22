@@ -6,14 +6,14 @@ public class Snake {
 	private int length=0;
 	private  RowCol head;
 	private  ArrayList<RowCol> body = new ArrayList<RowCol>();
-	private String direction = Model.RIGHTDIRECTION;
+	private String direction = Model.LEFTDIRECTION;
 	public void setHead(int row, int col){
 		head = new RowCol(row, col);
 	}
 	public Snake(){
 		setLength(2);
-		head = new RowCol(12, 1);
-		body.add(new RowCol(12,0));
+		head = new RowCol(12, 38);
+		body.add(new RowCol(12,39));
 	}
 	public String getDirection(){
 		return direction;
@@ -39,25 +39,25 @@ public class Snake {
 	
 	public boolean checkMove(){
 		if (direction.equals(Model.RIGHTDIRECTION)){
-			if (head.col()>=View.GAME_WIDTH){
+			if (head.col()>=View.GAME_WIDTH-1){
 				System.out.println(View.GAME_WIDTH);
 				return false;
 			}
 		}
 		if (direction.equals(Model.LEFTDIRECTION)){
-			if (head.col()<0){
+			if (head.col()<1){
 				System.out.println("0 width");
 				return false;
 			}
 		}
 		if (direction.equals(Model.UPDIRECTION)){
-			if (head.row()<0){
+			if (head.row()<1){
 				System.out.println("0 height");
 				return false;
 			}
 		}
 		if (direction.equals(Model.DOWNDIRECTION)){
-			if (head.row()>=View.GAME_HEIGHT){
+			if (head.row()>=View.GAME_HEIGHT-1){
 				System.out.println(View.GAME_HEIGHT);
 				return false;
 			}

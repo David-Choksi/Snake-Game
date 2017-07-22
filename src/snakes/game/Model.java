@@ -2,14 +2,17 @@ package snakes.game;
 
 
 import java.awt.Color;
+import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class Model {
-	public static final String UPDIRECTION = "UP";
-	public static final String DOWNDIRECTION = "DOWN";
-	public static final String LEFTDIRECTION = "LEFT";
-	public static final String RIGHTDIRECTION = "RIGHT";
+	public static final String UPDIRECTION = "images/up.png";
+	public static final String DOWNDIRECTION = "images/down.png";
+	public static final String LEFTDIRECTION = "images/left.png";
+	public static final String RIGHTDIRECTION = "images/right.png";
+	public static final String BODY = "images/body.png";
 	public static final int NUMBER_OF_FOOD = 1;
 	public static final int NUMBER_OF_DIE = 5;
 	public static int SNAKE_SPEED_TIME = 100;
@@ -24,7 +27,6 @@ public class Model {
 	private AudioFilePlayer audio;
 	
 	public Model (){
-		audio = new AudioFilePlayer();
 	
 	}
 
@@ -72,6 +74,7 @@ public class Model {
 			@Override
 			public void run() {
 				try {
+					changeHeadToBody();
 					showSnake();
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
@@ -80,6 +83,7 @@ public class Model {
 				}
 				while (true){
 					try {
+						changeHeadToBody();
 						player1.move();
 
 						showSnakeGone();
@@ -101,13 +105,22 @@ public class Model {
 		snakeTimer.start();
 		
 	}
-	
+	public void changeHeadToBody(){
+		view.labels[player1.getRow()][player1.getCol()].setText("S");
+		view.labels[player1.getRow()][player1.getCol()].setOpaque(true);		
+		view.labels[player1.getRow()][player1.getCol()].setBackground(Color.RED);
+		view.labels[player1.getRow()][player1.getCol()].setForeground(Color.RED);
+		File file = new File(BODY);
+		ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
+		view.labels[player1.getRow()][player1.getCol()].setIcon(img);
+	}
 	public void showSnakeGone(){
 
 		view.labels[player1.removing().row()][player1.removing().col()].setText("");
 		view.labels[player1.removing().row()][player1.removing().col()].setOpaque(false);
 		view.labels[player1.removing().row()][player1.removing().col()].setBackground(Color.BLUE);
 		view.labels[player1.removing().row()][player1.removing().col()].setForeground(Color.BLUE);
+		view.labels[player1.removing().row()][player1.removing().col()].setIcon(null);
 	}
 	
 	public void showSnake(){
@@ -116,10 +129,16 @@ public class Model {
 		view.labels[player1.getRow()][player1.getCol()].setOpaque(true);		
 		view.labels[player1.getRow()][player1.getCol()].setBackground(Color.RED);
 		view.labels[player1.getRow()][player1.getCol()].setForeground(Color.RED);
+		File file = new File(player1.getDirection());
+		ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
+		view.labels[player1.getRow()][player1.getCol()].setIcon(img);
 	}
 
 	public void setView(View view){
 		this.view = view;
+		if (view.promptForMusic()==0){
+			audio = new AudioFilePlayer();
+		}
 		showSnake();
 	}
 	public int rows(){
@@ -134,7 +153,7 @@ public class Model {
 	public void leftPressed(){
 		if(!(player1.getDirection().equals(LEFTDIRECTION) ||player1.getDirection().equals(RIGHTDIRECTION))){
 			player1.changeDirection(LEFTDIRECTION);
-			
+
 		}
 	}
 	public void rightPressed(){
@@ -193,6 +212,7 @@ public class Model {
 		if (!(player1.checkMove())){
 			timer.stop();
 			snakeTimer.stop();
+			
 			JOptionPane.showMessageDialog(null, "CHECKMOVE:::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
 	
 		}
