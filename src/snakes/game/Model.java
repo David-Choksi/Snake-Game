@@ -21,8 +21,11 @@ public class Model {
 	private Thread timer;
 	private Thread snakeTimer;
 	private boolean paused = true;
+	private AudioFilePlayer audio;
 	
 	public Model (){
+		audio = new AudioFilePlayer();
+	
 	}
 
 	@SuppressWarnings("deprecation")
@@ -39,9 +42,9 @@ public class Model {
 
 		Runnable time = new Runnable(){
 			int counter = 0;
-			
 			@Override
 			public void run() {
+				
 				while (true){
 					try {
 						counter++;
@@ -68,13 +71,21 @@ public class Model {
 			
 			@Override
 			public void run() {
+				try {
+					showSnake();
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				while (true){
 					try {
 						player1.move();
-						checkFinish();
-						showSnake();
+
 						showSnakeGone();
+						showSnake();
 						Thread.sleep(Model.SNAKE_SPEED_TIME);
+						checkFinish();
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -106,7 +117,7 @@ public class Model {
 		view.labels[player1.getRow()][player1.getCol()].setBackground(Color.RED);
 		view.labels[player1.getRow()][player1.getCol()].setForeground(Color.RED);
 	}
-	
+
 	public void setView(View view){
 		this.view = view;
 		showSnake();
@@ -123,27 +134,27 @@ public class Model {
 	public void leftPressed(){
 		if(!(player1.getDirection().equals(LEFTDIRECTION) ||player1.getDirection().equals(RIGHTDIRECTION))){
 			player1.changeDirection(LEFTDIRECTION);
-			checkFinish();
+			
 		}
 	}
 	public void rightPressed(){
 		if(!(player1.getDirection().equals(LEFTDIRECTION) ||player1.getDirection().equals(RIGHTDIRECTION))){
 			player1.changeDirection(RIGHTDIRECTION);
-			checkFinish();
+			
 		
 		}
 	}
 	public void upPressed(){
 		if(!(player1.getDirection().equals(UPDIRECTION) ||player1.getDirection().equals(DOWNDIRECTION))){
 			player1.changeDirection(UPDIRECTION);
-			checkFinish();
+
 			
 		}
 	}
 	public void downPressed(){
 		if(!(player1.getDirection().equals(UPDIRECTION) ||player1.getDirection().equals(DOWNDIRECTION))){
 			player1.changeDirection(DOWNDIRECTION);
-			checkFinish();
+	
 			
 		}
 	}
@@ -205,10 +216,10 @@ public class Model {
 					timer.stop();
 					snakeTimer.stop();
 					JOptionPane.showMessageDialog(null, "RED:::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
-	
+					
 					check = false;
 				}
-				if (check){
+				else if (check){
 					showSnakeGone();
 					showSnake();
 				}

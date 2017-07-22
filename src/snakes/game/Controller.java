@@ -91,12 +91,12 @@ public class Controller implements ActionListener, KeyListener {
 		}
 		else if (e.getKeyCode() == 40){
 			model.downPressed();
-		}	else if (e.getKeyCode() == 113){
+		}
+		else if (e.getKeyCode() == 113){
 			model.f2Pressed();  // new game
-			
 		}
 		else if (e.getKeyCode() == 32){
-			model.spacePressed();   //pause game using spacebar
+			model.spacePressed();
 		}
 	}
 		

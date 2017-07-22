@@ -30,10 +30,10 @@ public class Snake {
 	}
 	
 	public boolean checkForSnake(){
-//		if (body.contains(head)){
-//			return true;
-//		}
-//		
+		if (body.contains(head)){
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -66,18 +66,18 @@ public class Snake {
 	}
 	public RowCol nextMove(){
 		if (direction.equals(Model.RIGHTDIRECTION)){
-			return head.nextCol();
+			return new RowCol(head.nextCol());
 		}
 		if (direction.equals(Model.LEFTDIRECTION)){
-			return head.prevCol();
+			return new RowCol(head.prevCol());
 		}
 		if (direction.equals(Model.UPDIRECTION)){
-			return head.prevRow();
+			return new RowCol(head.prevRow());
 		}
 		if (direction.equals(Model.DOWNDIRECTION)){
-			return head.nextRow();
+			return new RowCol(head.nextRow());
 		}
-		return head;
+		return new RowCol( head);
 		
 	}
 	public RowCol removing(){
@@ -88,19 +88,23 @@ public class Snake {
 	public void move(){
 		body.remove(0);
 		body.add(head);
-		
+
 		if (direction.equals(Model.RIGHTDIRECTION)){
-			head = head.nextCol();
+			head = new RowCol(head.nextCol());
 		}
-		if (direction.equals(Model.LEFTDIRECTION)){
-			head=head.prevCol();
+		else if (direction.equals(Model.LEFTDIRECTION)){
+			head= new RowCol(head.prevCol());
 		}
-		if (direction.equals(Model.UPDIRECTION)){
-			head = head.prevRow();
+		else if (direction.equals(Model.UPDIRECTION)){
+			head = new RowCol(head.prevRow());
 		}
-		if (direction.equals(Model.DOWNDIRECTION)){
-			head = head.nextRow();
+		else if (direction.equals(Model.DOWNDIRECTION)){
+			head = new RowCol(head.nextRow());
 		}
+		else {
+			System.out.println("NOPE");  //Should never happen
+		}
+		
 	}
 	public void changeDirection(String direction){
 		this.direction = direction;

@@ -14,5 +14,6 @@ public class Game {
 		model.setView(view);
 		controller.set(model, view);
 		view.setVisible(true);
+		
 	}
 }
