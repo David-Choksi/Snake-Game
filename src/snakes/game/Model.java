@@ -1,6 +1,5 @@
 package snakes.game;
 
-
 import java.awt.Color;
 import java.io.File;
 
@@ -15,43 +14,53 @@ public class Model {
 	public static final String BODY = "images/body.png";
 	public static final int NUMBER_OF_FOOD = 1;
 	public static final int NUMBER_OF_DIE = 5;
-	public static int SNAKE_SPEED_TIME = 100;
+	public static final int SNAKE_SPEED = 100;
+	public static int SNAKE_SPEED_TIME = SNAKE_SPEED;
+	public static int TIME_TO_SPEED_UP = 45; // in seconds
 	public static int SPEED_TIME_DECREASE = -10;
-	private int row;
-	private int col;
+	private static String PLAYERNAME1 = "Player 1";
+	private static String PLAYERNAME2 = "Player 2";
 	private View view;
-	private Snake player1= new Snake();
+	private Snake player1 = new Snake(new RowCol(12, 38), new RowCol(12, 39), LEFTDIRECTION, PLAYERNAME1);
+	private Snake player2 = new Snake(new RowCol(-10, -10), new RowCol(-1, -1), RIGHTDIRECTION, PLAYERNAME2);
 	private Thread timer;
 	private Thread snakeTimer;
 	private boolean paused = true;
 	private AudioFilePlayer audio;
-	
-	public Model (){
-	
+	private int numberOfPlayers = 1;
+	private boolean doneOnce = false;
+	private int counter = 0;
+
+	public Model() {
+
 	}
 
 	@SuppressWarnings("deprecation")
-	public void newGame(){
+	public void newGame() {
 		paused = false;
-		player1 = new Snake();
+		player1 = new Snake(new RowCol(12, 38), new RowCol(12, 39), LEFTDIRECTION, PLAYERNAME1);
+		if (numberOfPlayers == 2) {
+			player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), RIGHTDIRECTION, PLAYERNAME2);
+		}
 		view.clear();
 		view.randomFood(NUMBER_OF_FOOD);
 		view.randomDie(NUMBER_OF_DIE);
-		if (!(timer == null)){
+		if (!(timer == null)) {
 			timer.stop();
 			snakeTimer.stop();
 		}
+		counter = 0;
+		SNAKE_SPEED_TIME = SNAKE_SPEED;
+		Runnable time = new Runnable() {
 
-		Runnable time = new Runnable(){
-			int counter = 0;
 			@Override
 			public void run() {
-				
-				while (true){
+
+				while (true) {
 					try {
 						counter++;
 						view.setTitle("Time:  " + counter);
-						if (counter %60==0){
+						if (counter % TIME_TO_SPEED_UP == 0) {
 							SNAKE_SPEED_TIME += (SPEED_TIME_DECREASE);
 						}
 						Thread.sleep(1000);
@@ -61,145 +70,224 @@ public class Model {
 					}
 				}
 
-				
 			}
-			
+
 		};
 		timer = new Thread(time);
 		timer.start();
-		
-		Runnable snakeTime = new Runnable(){
 
-			
+		Runnable snakeTime = new Runnable() {
+
 			@Override
 			public void run() {
 				try {
-					changeHeadToBody();
-					showSnake();
+					changeHeadToBody(player1);
+					showSnake(player1);
+					if (numberOfPlayers == 2) {
+						changeHeadToBody(player2);
+						showSnake(player2);
+					}
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				while (true){
+				while (true) {
 					try {
-						changeHeadToBody();
+						doneOnce = false;
+						if (numberOfPlayers == 2) {
+							changeHeadToBody(player2);
+							player2.move();
+							showSnakeGone(player2);
+							showSnake(player2);
+						}
+						changeHeadToBody(player1);
 						player1.move();
-
-						showSnakeGone();
-						showSnake();
+						showSnakeGone(player1);
+						showSnake(player1);
 						Thread.sleep(Model.SNAKE_SPEED_TIME);
-						checkFinish();
+						checkFinish(player1);
+						if (numberOfPlayers == 2) {
+
+							checkFinish(player2);
+						}
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 
-				
 			}
-			
+
 		};
 		snakeTimer = new Thread(snakeTime);
 
 		snakeTimer.start();
-		
+
 	}
-	public void changeHeadToBody(){
-		view.labels[player1.getRow()][player1.getCol()].setText("S");
-		view.labels[player1.getRow()][player1.getCol()].setOpaque(true);		
-		view.labels[player1.getRow()][player1.getCol()].setBackground(Color.RED);
-		view.labels[player1.getRow()][player1.getCol()].setForeground(Color.RED);
+
+	public void changeHeadToBody(Snake snake) {
+		view.labels[snake.getRow()][snake.getCol()].setText("S");
+		view.labels[snake.getRow()][snake.getCol()].setOpaque(true);
+		view.labels[snake.getRow()][snake.getCol()].setBackground(Color.RED);
+		view.labels[snake.getRow()][snake.getCol()].setForeground(Color.RED);
 		File file = new File(BODY);
 		ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
-		view.labels[player1.getRow()][player1.getCol()].setIcon(img);
-	}
-	public void showSnakeGone(){
+		view.labels[snake.getRow()][snake.getCol()].setIcon(img);
 
-		view.labels[player1.removing().row()][player1.removing().col()].setText("");
-		view.labels[player1.removing().row()][player1.removing().col()].setOpaque(false);
-		view.labels[player1.removing().row()][player1.removing().col()].setBackground(Color.BLUE);
-		view.labels[player1.removing().row()][player1.removing().col()].setForeground(Color.BLUE);
-		view.labels[player1.removing().row()][player1.removing().col()].setIcon(null);
 	}
-	
-	public void showSnake(){
-		
-		view.labels[player1.getRow()][player1.getCol()].setText("S");
-		view.labels[player1.getRow()][player1.getCol()].setOpaque(true);		
-		view.labels[player1.getRow()][player1.getCol()].setBackground(Color.RED);
-		view.labels[player1.getRow()][player1.getCol()].setForeground(Color.RED);
-		File file = new File(player1.getDirection());
+
+	public void showSnakeGone(Snake snake) {
+
+		view.labels[snake.removing().row()][snake.removing().col()].setText("");
+		view.labels[snake.removing().row()][snake.removing().col()].setOpaque(false);
+		view.labels[snake.removing().row()][snake.removing().col()].setBackground(Color.BLUE);
+		view.labels[snake.removing().row()][snake.removing().col()].setForeground(Color.BLUE);
+		view.labels[snake.removing().row()][snake.removing().col()].setIcon(null);
+
+	}
+
+	public void showSnake(Snake snake) {
+
+		view.labels[snake.getRow()][snake.getCol()].setText("S");
+		view.labels[snake.getRow()][snake.getCol()].setOpaque(true);
+		view.labels[snake.getRow()][snake.getCol()].setBackground(Color.RED);
+		view.labels[snake.getRow()][snake.getCol()].setForeground(Color.RED);
+		File file = new File(snake.getDirection());
 		ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
-		view.labels[player1.getRow()][player1.getCol()].setIcon(img);
+		view.labels[snake.getRow()][snake.getCol()].setIcon(img);
+
 	}
 
-	public void setView(View view){
+	public void setView(View view) {
 		this.view = view;
-		if (view.promptForMusic()==0){
+		if (view.promptForMusic() == 0) {
 			audio = new AudioFilePlayer();
 		}
-		showSnake();
-	}
-	public int rows(){
-		return this.row;
-	}
-	
-	public int cols(){
-		return this.col;
+		PLAYERNAME1 = view.promptForName();
+		if (view.promptForTwoPlayer() == 0) {
+
+			PLAYERNAME2 = view.promptForName();
+			numberOfPlayers = 2;
+			showSnake(player2);
+		}
+		showSnake(player1);
 	}
 
-	
-	public void leftPressed(){
-		if(!(player1.getDirection().equals(LEFTDIRECTION) ||player1.getDirection().equals(RIGHTDIRECTION))){
-			player1.changeDirection(LEFTDIRECTION);
+	public void leftPressed(String snake) {
+		if (doneOnce) {
+			try {
+				Thread.sleep(SNAKE_SPEED_TIME);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (snake.equals(Controller.P1)) {
+			if (!(player1.getDirection().equals(LEFTDIRECTION) || player1.getDirection().equals(RIGHTDIRECTION))) {
+				player1.changeDirection(LEFTDIRECTION);
+			}
+		} else {
+			if (!(player2.getDirection().equals(LEFTDIRECTION) || player2.getDirection().equals(RIGHTDIRECTION))) {
+				player2.changeDirection(LEFTDIRECTION);
+			}
+		}
 
-		}
+		doneOnce = true;
 	}
-	public void rightPressed(){
-		if(!(player1.getDirection().equals(LEFTDIRECTION) ||player1.getDirection().equals(RIGHTDIRECTION))){
-			player1.changeDirection(RIGHTDIRECTION);
-			
-		
-		}
-	}
-	public void upPressed(){
-		if(!(player1.getDirection().equals(UPDIRECTION) ||player1.getDirection().equals(DOWNDIRECTION))){
-			player1.changeDirection(UPDIRECTION);
 
-			
+	public void rightPressed(String snake) {
+		if (doneOnce) {
+			try {
+				Thread.sleep(SNAKE_SPEED_TIME);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-	}
-	public void downPressed(){
-		if(!(player1.getDirection().equals(UPDIRECTION) ||player1.getDirection().equals(DOWNDIRECTION))){
-			player1.changeDirection(DOWNDIRECTION);
-	
-			
+		if (snake.equals(Controller.P1)) {
+			if (!(player1.getDirection().equals(LEFTDIRECTION) || player1.getDirection().equals(RIGHTDIRECTION))) {
+				player1.changeDirection(RIGHTDIRECTION);
+
+			}
+		} else {
+			if (!(player2.getDirection().equals(LEFTDIRECTION) || player2.getDirection().equals(RIGHTDIRECTION))) {
+				player2.changeDirection(RIGHTDIRECTION);
+			}
 		}
+		doneOnce = true;
 	}
+
+	public void upPressed(String snake) {
+		if (doneOnce) {
+			try {
+				Thread.sleep(SNAKE_SPEED_TIME);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (snake.equals(Controller.P1)) {
+			if (!(player1.getDirection().equals(UPDIRECTION) || player1.getDirection().equals(DOWNDIRECTION))) {
+				player1.changeDirection(UPDIRECTION);
+			}
+		} else {
+			if (!(player2.getDirection().equals(UPDIRECTION) || player2.getDirection().equals(DOWNDIRECTION))) {
+				player2.changeDirection(UPDIRECTION);
+			}
+		}
+		doneOnce = true;
+	}
+
+	public int getScore(Snake snake) {
+		return (snake.getLength() - 2) * counter;
+	}
+
+	public void downPressed(String snake) {
+		if (doneOnce) {
+			try {
+				Thread.sleep(SNAKE_SPEED_TIME);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (snake.equals(Controller.P1)) {
+			if (!(player1.getDirection().equals(UPDIRECTION) || player1.getDirection().equals(DOWNDIRECTION))) {
+				player1.changeDirection(DOWNDIRECTION);
+
+			}
+		} else {
+			if (!(player2.getDirection().equals(UPDIRECTION) || player2.getDirection().equals(DOWNDIRECTION))) {
+				player2.changeDirection(DOWNDIRECTION);
+			}
+		}
+		doneOnce = true;
+	}
+
 	@SuppressWarnings("deprecation")
-	public void f2Pressed(){
-		if (!paused){
+	public void f2Pressed() {
+		if (!paused) {
 			snakeTimer.suspend();
 			timer.suspend();
 		}
-		int check = JOptionPane.showOptionDialog(view,  "Do you want to start a new game?", null, 0,0, null, null, "New Game");
-		if (check == 0 ){
+		int check = JOptionPane.showOptionDialog(view, "Do you want to start a new game?", null, 0, 0, null, null,
+				"New Game");
+		if (check == 0) {
 			newGame();
-		}
-		else{
+		} else {
 			snakeTimer.resume();
 			timer.resume();
 		}
 	}
+
 	@SuppressWarnings("deprecation")
-	public void spacePressed(){
-		if (!paused){
+	public void spacePressed() {
+		if (!paused) {
 			snakeTimer.suspend();
 			timer.suspend();
 			paused = true;
-		}
-		else{
+		} else {
 			snakeTimer.resume();
 			timer.resume();
 			paused = false;
@@ -207,44 +295,58 @@ public class Model {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void checkFinish(){
+	public void checkFinish(Snake snake) {
 		boolean check = true;
-		if (!(player1.checkMove())){
-			timer.stop();
-			snakeTimer.stop();
-			
-			JOptionPane.showMessageDialog(null, "CHECKMOVE:::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
-	
-		}
-		else{
-			if (View.foodLocation.contains(new RowCol(player1.getRow(), player1.getCol()))){
-				player1.addLength();
-				View.foodLocation.remove(new RowCol(player1.getRow(), player1.getCol()));
+
+		if (!(snake.checkMove())) {
+
+			timer.suspend();
+			JOptionPane.showMessageDialog(null,
+					snake.getPlayerName() + " YOU LOSE.CM  Your score is: " + getScore(snake), "GAME OVER",
+					JOptionPane.PLAIN_MESSAGE);
+			snakeTimer.suspend();
+
+		} else {
+			if (View.foodLocation.contains(new RowCol(snake.getRow(), snake.getCol()))) {
+				snake.addLength();
+				View.foodLocation.remove(new RowCol(snake.getRow(), snake.getCol()));
 				view.randomFood(1);
-			}
-			else if (View.dieLocation.contains(new RowCol(player1.getRow(), player1.getCol()))){
+			} else if (View.dieLocation.contains(new RowCol(snake.getRow(), snake.getCol()))) {
 				timer.stop();
+				JOptionPane.showMessageDialog(null,
+						snake.getPlayerName() + " YOU LOSE.DL  Your score is: " + getScore(snake), "GAME OVER",
+						JOptionPane.PLAIN_MESSAGE);
+
 				snakeTimer.stop();
-				JOptionPane.showMessageDialog(null, "DIE::::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
-	
-				
+
 			}
-		
-			else{
-	
-				if (player1.checkForSnake()){
+
+			else {
+
+				if (snake.checkForSnake(player1, player2)) {
 					timer.stop();
+					JOptionPane.showMessageDialog(null,
+							snake.getPlayerName() + " YOU LOSE.SN  Your score is: " + getScore(snake), "GAME OVER",
+							JOptionPane.PLAIN_MESSAGE);
+
 					snakeTimer.stop();
-					JOptionPane.showMessageDialog(null, "RED:::YOU LOSE.  Your score is: " + (player1.getLength()-2), "GAME OVER", JOptionPane.PLAIN_MESSAGE );
-					
+
 					check = false;
-				}
-				else if (check){
-					showSnakeGone();
-					showSnake();
+				} else if (check) {
+					showSnakeGone(snake);
+					showSnake(snake);
 				}
 			}
 		}
 
 	}
+
+	public AudioFilePlayer getAudio() {
+		return audio;
+	}
+
+	public void setAudio(AudioFilePlayer audio) {
+		this.audio = audio;
+	}
+
 }

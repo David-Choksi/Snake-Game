@@ -1,11 +1,12 @@
 package snakes.game;
 
-
 public class Game {
 	/**
 	 * Program to run the snakes game
-	 * @param args default expression
-	 * @throws InterruptedException  
+	 * 
+	 * @param args
+	 *            default expression
+	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) {
 		Model model = new Model();
@@ -14,6 +15,6 @@ public class Game {
 		model.setView(view);
 		controller.set(model, view);
 		view.setVisible(true);
-		
+
 	}
 }
