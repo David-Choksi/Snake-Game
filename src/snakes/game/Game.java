@@ -9,6 +9,7 @@ public class Game {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) {
+		
 		Model model = new Model();
 		Controller controller = new Controller();
 		View view = new View(controller, controller);
