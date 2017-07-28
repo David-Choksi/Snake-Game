@@ -17,6 +17,7 @@ public class Snake {
 		setLength(2);
 		this.head = new RowCol(head);
 		this.body.add(new RowCol(body));
+		this.body.add(new RowCol(body));
 		this.direction = direction;
 		playerName = player;
 	}

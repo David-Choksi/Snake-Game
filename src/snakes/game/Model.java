@@ -7,11 +7,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class Model {
+
 	public static final String UPDIRECTION = "images/up.png";
 	public static final String DOWNDIRECTION = "images/down.png";
 	public static final String LEFTDIRECTION = "images/left.png";
 	public static final String RIGHTDIRECTION = "images/right.png";
 	public static final String BODY = "images/body.png";
+	public static final String BODYUP = "images/bodyup.png";
 	public static final int NUMBER_OF_FOOD = 1;
 	public static final int NUMBER_OF_DIE = 5;
 	public static final int SNAKE_SPEED = 100;
@@ -22,7 +24,7 @@ public class Model {
 	private static String PLAYERNAME2 = "Player 2";
 	private View view;
 	private Snake player1 = new Snake(new RowCol(12, 38), new RowCol(12, 39), LEFTDIRECTION, PLAYERNAME1);
-	private Snake player2 = new Snake(new RowCol(-10, -10), new RowCol(-1, -1), RIGHTDIRECTION, PLAYERNAME2);
+	private Snake player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), RIGHTDIRECTION, PLAYERNAME2);
 	private Thread timer;
 	private Thread snakeTimer;
 	private boolean paused = true;
@@ -32,6 +34,11 @@ public class Model {
 	private int counter = 0;
 
 	public Model() {
+
+	}
+
+	public void showHighScores() {
+		HighScores[] scores;
 
 	}
 
@@ -83,9 +90,11 @@ public class Model {
 				try {
 					changeHeadToBody(player1);
 					showSnake(player1);
+					showSnakeBody(player1);
 					if (numberOfPlayers == 2) {
 						changeHeadToBody(player2);
 						showSnake(player2);
+						showSnakeBody(player2);
 					}
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
@@ -131,10 +140,15 @@ public class Model {
 		view.labels[snake.getRow()][snake.getCol()].setOpaque(true);
 		view.labels[snake.getRow()][snake.getCol()].setBackground(Color.RED);
 		view.labels[snake.getRow()][snake.getCol()].setForeground(Color.RED);
-		File file = new File(BODY);
-		ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
-		view.labels[snake.getRow()][snake.getCol()].setIcon(img);
-
+		if (snake.getDirection() == UPDIRECTION || snake.getDirection() == DOWNDIRECTION) {
+			File file = new File(BODYUP);
+			ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
+			view.labels[snake.getRow()][snake.getCol()].setIcon(img);
+		} else {
+			File file = new File(BODY);
+			ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
+			view.labels[snake.getRow()][snake.getCol()].setIcon(img);
+		}
 	}
 
 	public void showSnakeGone(Snake snake) {
@@ -145,6 +159,16 @@ public class Model {
 		view.labels[snake.removing().row()][snake.removing().col()].setForeground(Color.BLUE);
 		view.labels[snake.removing().row()][snake.removing().col()].setIcon(null);
 
+	}
+
+	public void showSnakeBody(Snake snake) {
+		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setText("S");
+		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setOpaque(true);
+		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setBackground(Color.RED);
+		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setForeground(Color.RED);
+		File file = new File(BODY);
+		ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
+		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setIcon(img);
 	}
 
 	public void showSnake(Snake snake) {
@@ -170,8 +194,11 @@ public class Model {
 			PLAYERNAME2 = view.promptForName();
 			numberOfPlayers = 2;
 			showSnake(player2);
+
+			showSnakeBody(player2);
 		}
 		showSnake(player1);
+		showSnakeBody(player1);
 	}
 
 	public void leftPressed(String snake) {
@@ -302,8 +329,8 @@ public class Model {
 
 			timer.suspend();
 			JOptionPane.showMessageDialog(null,
-					snake.getPlayerName() + " YOU LOSE.CM  Your score is: " + getScore(snake), "GAME OVER",
-					JOptionPane.PLAIN_MESSAGE);
+					snake.getPlayerName() + " YOU LOSE.  Out of bounds.  Your score is: " + getScore(snake),
+					"GAME OVER", JOptionPane.PLAIN_MESSAGE);
 			snakeTimer.suspend();
 
 		} else {
@@ -314,8 +341,8 @@ public class Model {
 			} else if (View.dieLocation.contains(new RowCol(snake.getRow(), snake.getCol()))) {
 				timer.stop();
 				JOptionPane.showMessageDialog(null,
-						snake.getPlayerName() + " YOU LOSE.DL  Your score is: " + getScore(snake), "GAME OVER",
-						JOptionPane.PLAIN_MESSAGE);
+						snake.getPlayerName() + " YOU LOSE.  You hit poison.  Your score is: " + getScore(snake),
+						"GAME OVER", JOptionPane.PLAIN_MESSAGE);
 
 				snakeTimer.stop();
 
@@ -326,8 +353,8 @@ public class Model {
 				if (snake.checkForSnake(player1, player2)) {
 					timer.stop();
 					JOptionPane.showMessageDialog(null,
-							snake.getPlayerName() + " YOU LOSE.SN  Your score is: " + getScore(snake), "GAME OVER",
-							JOptionPane.PLAIN_MESSAGE);
+							snake.getPlayerName() + " YOU LOSE.  You hit the snake.  Your score is: " + getScore(snake),
+							"GAME OVER", JOptionPane.PLAIN_MESSAGE);
 
 					snakeTimer.stop();
 

@@ -54,7 +54,7 @@ public class Controller implements ActionListener, KeyListener {
 			model.newGame();
 
 		} else if (action.equals(View.HIGH_SCORE)) {
-
+			model.showHighScores();
 		} else if (action.equals(View.EXIT)) {
 
 			int check = JOptionPane.showOptionDialog(view, "Do you want to exit?", action, 0, 0, null, null, "EXIT");
