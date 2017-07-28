@@ -16,8 +16,8 @@ public class Model {
 	public static final int NUMBER_OF_DIE = 5;
 	public static final int SNAKE_SPEED = 100;
 	public static int SNAKE_SPEED_TIME = SNAKE_SPEED;
-	public static int TIME_TO_SPEED_UP = 45; // in seconds
-	public static int SPEED_TIME_DECREASE = -10;
+	public static int TIME_TO_SPEED_UP = 10; // in seconds
+	public static int SPEED_TIME_DECREASE = -5;
 	private static String PLAYERNAME1 = "Player 1";
 	private static String PLAYERNAME2 = "Player 2";
 	private View view;

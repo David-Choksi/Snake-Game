@@ -43,6 +43,7 @@ public class View extends JFrame {
 		this.getContentPane().setLayout(new GridLayout(GAME_HEIGHT, GAME_WIDTH));
 		this.addKeyListener(keyListener);
 		this.makeLabels(listener);
+		this.getContentPane().setBackground(Color.WHITE);
 		this.setVisible(true);
 		this.pack();
 
