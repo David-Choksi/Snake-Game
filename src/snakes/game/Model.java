@@ -38,7 +38,7 @@ public class Model {
 	}
 
 	public void showHighScores() {
-		HighScores[] scores;
+		//HighScores[] scores;
 
 	}
 

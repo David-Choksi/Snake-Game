@@ -65,25 +65,21 @@ public class Snake {
 	public boolean checkMove() {
 		if (direction.equals(Model.RIGHTDIRECTION)) {
 			if (head.col() >= View.GAME_WIDTH - 1) {
-				System.out.println(View.GAME_WIDTH);
 				return false;
 			}
 		}
 		if (direction.equals(Model.LEFTDIRECTION)) {
 			if (head.col() < 1) {
-				System.out.println("0 width");
 				return false;
 			}
 		}
 		if (direction.equals(Model.UPDIRECTION)) {
 			if (head.row() < 1) {
-				System.out.println("0 height");
 				return false;
 			}
 		}
 		if (direction.equals(Model.DOWNDIRECTION)) {
 			if (head.row() >= View.GAME_HEIGHT - 1) {
-				System.out.println(View.GAME_HEIGHT);
 				return false;
 			}
 		}
