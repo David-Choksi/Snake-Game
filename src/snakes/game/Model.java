@@ -2,6 +2,8 @@ package snakes.game;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -41,19 +43,54 @@ public class Model {
 	public void showHighScores() {
 		List<HS> scores = HighScores.getHighScores();
 		String display = "";
+
 		for (int i = 0; i < scores.size(); i++) {
-			display += scores.get(i) + "\n";
+			display += "(" + (i + 1) + ")   " + scores.get(i) + "\n";
+
 		}
-		JOptionPane.showMessageDialog(null, display, "GAME OVER", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, display, "HIGH SCORES", JOptionPane.PLAIN_MESSAGE);
 	}
 
+	// **************************************************************
+
+	// **********************************************************
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setHighScores() {
+
 		List<HS> scores = HighScores.getHighScores();
-		for (int i = 0; i < scores.size(); i++) {
-			if (scores.get(i).getScore() < getScore(player1)) {
-				scores.add(new HS(player1.getPlayerName(), getScore(player1)));
+		if (scores.size() < 10) {
+			scores.add(new HS(player1.getPlayerName(), getScore(player1)));
+		} else {
+			for (int i = 0; i < scores.size(); i++) {
+				if (scores.get(i).getScore() < getScore(player1)) {
+					scores.add(new HS(player1.getPlayerName(), getScore(player1)));
+
+				}
 			}
+			Collections.sort(scores, new Comparator() {
+				@Override
+				public int compare(Object score1, Object score2) {
+					return (((HS) score2).score - (((HS) score1).score)); // reverse
+																			// order
+																			// of
+																			// scores
+				}
+
+			});
+			scores.remove(scores.size() - 1);
 		}
+		Collections.sort(scores, new Comparator() {
+			@Override
+			public int compare(Object score1, Object score2) {
+				return (((HS) score2).score - (((HS) score1).score)); // reverse
+																		// order
+																		// of
+																		// scores
+			}
+
+		});
+
 		HighScores.writeHighScores(scores);
 
 	}

@@ -71,7 +71,7 @@ public class HighScores {
 
 	public static void main(String[] args) {
 		String[] n = new String[10];
-		long[] v = new long[10];
+		int[] v = new int[10];
 		for (int i = 0; i < n.length; i++) {
 			n[i] = "Jason";
 

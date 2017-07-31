@@ -2,9 +2,9 @@ package snakes.game;
 
 public class HS {
 	public String name;
-	public long score;
+	public int score;
 
-	public HS(String name, long score) {
+	public HS(String name, int score) {
 		this.name = name;
 		this.score = score;
 	}
