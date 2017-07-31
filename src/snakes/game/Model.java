@@ -2,6 +2,7 @@ package snakes.game;
 
 import java.awt.Color;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -24,7 +25,7 @@ public class Model {
 	private static String PLAYERNAME2 = "Player 2";
 	private View view;
 	private Snake player1 = new Snake(new RowCol(12, 38), new RowCol(12, 39), LEFTDIRECTION, PLAYERNAME1);
-	private Snake player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), RIGHTDIRECTION, PLAYERNAME2);
+	private Snake player2 = new Snake(new RowCol(-10, -10), new RowCol(-11, -11), RIGHTDIRECTION, PLAYERNAME2);
 	private Thread timer;
 	private Thread snakeTimer;
 	private boolean paused = true;
@@ -38,7 +39,22 @@ public class Model {
 	}
 
 	public void showHighScores() {
-		//HighScores[] scores;
+		List<HS> scores = HighScores.getHighScores();
+		String display = "";
+		for (int i = 0; i < scores.size(); i++) {
+			display += scores.get(i) + "\n";
+		}
+		JOptionPane.showMessageDialog(null, display, "GAME OVER", JOptionPane.PLAIN_MESSAGE);
+	}
+
+	public void setHighScores() {
+		List<HS> scores = HighScores.getHighScores();
+		for (int i = 0; i < scores.size(); i++) {
+			if (scores.get(i).getScore() < getScore(player1)) {
+				scores.add(new HS(player1.getPlayerName(), getScore(player1)));
+			}
+		}
+		HighScores.writeHighScores(scores);
 
 	}
 
@@ -268,6 +284,7 @@ public class Model {
 
 	public int getScore(Snake snake) {
 		return (snake.getLength() - 2) * counter;
+
 	}
 
 	public void downPressed(String snake) {
@@ -331,6 +348,7 @@ public class Model {
 			JOptionPane.showMessageDialog(null,
 					snake.getPlayerName() + " YOU LOSE.  Out of bounds.  Your score is: " + getScore(snake),
 					"GAME OVER", JOptionPane.PLAIN_MESSAGE);
+			setHighScores();
 			snakeTimer.suspend();
 
 		} else {
@@ -343,7 +361,7 @@ public class Model {
 				JOptionPane.showMessageDialog(null,
 						snake.getPlayerName() + " YOU LOSE.  You hit poison.  Your score is: " + getScore(snake),
 						"GAME OVER", JOptionPane.PLAIN_MESSAGE);
-
+				setHighScores();
 				snakeTimer.stop();
 
 			}
@@ -355,7 +373,7 @@ public class Model {
 					JOptionPane.showMessageDialog(null,
 							snake.getPlayerName() + " YOU LOSE.  You hit the snake.  Your score is: " + getScore(snake),
 							"GAME OVER", JOptionPane.PLAIN_MESSAGE);
-
+					setHighScores();
 					snakeTimer.stop();
 
 					check = false;
