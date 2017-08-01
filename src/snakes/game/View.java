@@ -45,7 +45,7 @@ public class View extends JFrame {
 		this.addKeyListener(keyListener);
 		this.makeLabels(listener);
 		this.setResizable(false);
-		this.getContentPane().setBackground(Color.WHITE);
+		this.getContentPane().setBackground(Color.BLACK);
 		this.setVisible(true);
 		this.pack();
 
@@ -64,7 +64,13 @@ public class View extends JFrame {
 	}
 
 	public String promptForName(String name) {
-		return JOptionPane.showInputDialog(null, "What is your name " + name + "?");
+		String newName = JOptionPane.showInputDialog(null, "What is your name " + name + "?");
+		while (newName.contains(",")) {
+			JOptionPane.showMessageDialog(null, "No special Characters please", "ReEnter you name.",
+					JOptionPane.PLAIN_MESSAGE);
+			newName = JOptionPane.showInputDialog(null, "What is your name " + name + "?");
+		}
+		return newName;
 
 	}
 
@@ -165,7 +171,6 @@ public class View extends JFrame {
 				if (labels[i][j].getText().equals("")) {
 					labels[i][j].setText("F");
 					labels[i][j].setForeground(Color.GREEN);
-					labels[i][j].setOpaque(true);
 					labels[i][j].setBackground(Color.GREEN);
 					foodLocation.add(new RowCol(i, j));
 					File file = new File("images/rat.png");
@@ -184,7 +189,6 @@ public class View extends JFrame {
 			int j = rdm.nextInt(GAME_WIDTH);
 			labels[i][j].setText("D");
 			labels[i][j].setForeground(Color.BLACK);
-			labels[i][j].setOpaque(true);
 			labels[i][j].setBackground(Color.BLACK);
 			dieLocation.add(new RowCol(i, j));
 			File file = new File("images/die.png");

@@ -1,10 +1,7 @@
-Jason,2030
-Jason,690
-sdfg,30
-asdf,20
-Jason,16
-Jason,16
-asdf,7
-asdf,7
-asdf,5
-asdf,5
+Player 1,686
+Player 1,288
+Player 1,90
+Player 1,80
+Player 1,7
+Player 1,0
+Player 1,0

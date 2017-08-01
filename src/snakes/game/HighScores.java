@@ -38,7 +38,6 @@ public class HighScores {
 			out.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
@@ -60,29 +59,10 @@ public class HighScores {
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return name;
-	}
-
-	public static void main(String[] args) {
-		String[] n = new String[10];
-		int[] v = new int[10];
-		for (int i = 0; i < n.length; i++) {
-			n[i] = "Jason";
-
-			v[i] = (i * 1234);
-		}
-		List<HS> name = new ArrayList<HS>();
-		for (int i = 0; i < n.length; i++) {
-			name.add(new HS(n[i], v[i]));
-
-		}
-		new HighScores(name);
-		getHighScores();
 	}
 }

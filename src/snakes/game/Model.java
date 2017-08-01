@@ -31,6 +31,7 @@ public class Model {
 	private Thread timer;
 	private Thread snakeTimer;
 	private boolean paused = true;
+	private boolean gameStarted = false;
 	private AudioFilePlayer audio;
 	private int numberOfPlayers = 1;
 	private boolean doneOnce = false;
@@ -51,20 +52,16 @@ public class Model {
 		JOptionPane.showMessageDialog(null, display, "HIGH SCORES", JOptionPane.PLAIN_MESSAGE);
 	}
 
-	// **************************************************************
-
-	// **********************************************************
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void setHighScores() {
+	public void setHighScores(Snake snake) {
 
 		List<HS> scores = HighScores.getHighScores();
 		if (scores.size() < 10) {
-			scores.add(new HS(player1.getPlayerName(), getScore(player1)));
+			scores.add(new HS(snake.getPlayerName(), getScore(snake)));
 		} else {
 
-			if (scores.get(scores.size() - 1).getScore() < getScore(player1)) {
-				scores.add(new HS(player1.getPlayerName(), getScore(player1)));
+			if (scores.get(scores.size() - 1).getScore() < getScore(snake)) {
+				scores.add(new HS(snake.getPlayerName(), getScore(snake)));
 				Collections.sort(scores, new Comparator() {
 					@Override
 					public int compare(Object score1, Object score2) {
@@ -107,6 +104,7 @@ public class Model {
 	@SuppressWarnings("deprecation")
 	public void newGame() {
 		paused = false;
+		gameStarted = true;
 		player1 = new Snake(new RowCol(12, 38), new RowCol(12, 39), LEFTDIRECTION, PLAYERNAME1);
 		if (numberOfPlayers == 2) {
 			player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), RIGHTDIRECTION, PLAYERNAME2);
@@ -199,7 +197,6 @@ public class Model {
 
 	public void changeHeadToBody(Snake snake) {
 		view.labels[snake.getRow()][snake.getCol()].setText("S");
-		view.labels[snake.getRow()][snake.getCol()].setOpaque(true);
 		view.labels[snake.getRow()][snake.getCol()].setBackground(Color.RED);
 		view.labels[snake.getRow()][snake.getCol()].setForeground(Color.RED);
 		if (snake.getDirection() == UPDIRECTION || snake.getDirection() == DOWNDIRECTION) {
@@ -216,7 +213,6 @@ public class Model {
 	public void showSnakeGone(Snake snake) {
 
 		view.labels[snake.removing().row()][snake.removing().col()].setText("");
-		view.labels[snake.removing().row()][snake.removing().col()].setOpaque(false);
 		view.labels[snake.removing().row()][snake.removing().col()].setBackground(Color.BLUE);
 		view.labels[snake.removing().row()][snake.removing().col()].setForeground(Color.BLUE);
 		view.labels[snake.removing().row()][snake.removing().col()].setIcon(null);
@@ -225,7 +221,6 @@ public class Model {
 
 	public void showSnakeBody(Snake snake) {
 		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setText("S");
-		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setOpaque(true);
 		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setBackground(Color.RED);
 		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setForeground(Color.RED);
 		File file = new File(BODY);
@@ -236,7 +231,6 @@ public class Model {
 	public void showSnake(Snake snake) {
 
 		view.labels[snake.getRow()][snake.getCol()].setText("S");
-		view.labels[snake.getRow()][snake.getCol()].setOpaque(true);
 		view.labels[snake.getRow()][snake.getCol()].setBackground(Color.RED);
 		view.labels[snake.getRow()][snake.getCol()].setForeground(Color.RED);
 		File file = new File(snake.getDirection());
@@ -250,7 +244,10 @@ public class Model {
 		if (view.promptForMusic() == 0) {
 			audio = new AudioFilePlayer();
 		}
-		PLAYERNAME1 = view.promptForName(PLAYERNAME1);
+		String name = view.promptForName(PLAYERNAME1);
+		if (!(name.equals(""))) {
+			PLAYERNAME1 = name;
+		}
 		showSnake(player1);
 		showSnakeBody(player1);
 	}
@@ -269,8 +266,10 @@ public class Model {
 				player1.changeDirection(LEFTDIRECTION);
 			}
 		} else {
-			if (!(player2.getDirection().equals(LEFTDIRECTION) || player2.getDirection().equals(RIGHTDIRECTION))) {
-				player2.changeDirection(LEFTDIRECTION);
+			if (numberOfPlayers == 2) {
+				if (!(player2.getDirection().equals(LEFTDIRECTION) || player2.getDirection().equals(RIGHTDIRECTION))) {
+					player2.changeDirection(LEFTDIRECTION);
+				}
 			}
 		}
 
@@ -292,8 +291,10 @@ public class Model {
 
 			}
 		} else {
-			if (!(player2.getDirection().equals(LEFTDIRECTION) || player2.getDirection().equals(RIGHTDIRECTION))) {
-				player2.changeDirection(RIGHTDIRECTION);
+			if (numberOfPlayers == 2) {
+				if (!(player2.getDirection().equals(LEFTDIRECTION) || player2.getDirection().equals(RIGHTDIRECTION))) {
+					player2.changeDirection(RIGHTDIRECTION);
+				}
 			}
 		}
 		doneOnce = true;
@@ -313,16 +314,13 @@ public class Model {
 				player1.changeDirection(UPDIRECTION);
 			}
 		} else {
-			if (!(player2.getDirection().equals(UPDIRECTION) || player2.getDirection().equals(DOWNDIRECTION))) {
-				player2.changeDirection(UPDIRECTION);
+			if (numberOfPlayers == 2) {
+				if (!(player2.getDirection().equals(UPDIRECTION) || player2.getDirection().equals(DOWNDIRECTION))) {
+					player2.changeDirection(UPDIRECTION);
+				}
 			}
 		}
 		doneOnce = true;
-	}
-
-	public int getScore(Snake snake) {
-		return (snake.getLength() - 2) * counter;
-
 	}
 
 	public void downPressed(String snake) {
@@ -340,11 +338,18 @@ public class Model {
 
 			}
 		} else {
-			if (!(player2.getDirection().equals(UPDIRECTION) || player2.getDirection().equals(DOWNDIRECTION))) {
-				player2.changeDirection(DOWNDIRECTION);
+			if (numberOfPlayers == 2) {
+				if (!(player2.getDirection().equals(UPDIRECTION) || player2.getDirection().equals(DOWNDIRECTION))) {
+					player2.changeDirection(DOWNDIRECTION);
+				}
 			}
 		}
 		doneOnce = true;
+	}
+
+	public int getScore(Snake snake) {
+		return (snake.getLength() - 2) * counter;
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -370,9 +375,11 @@ public class Model {
 			timer.suspend();
 			paused = true;
 		} else {
-			snakeTimer.resume();
-			timer.resume();
-			paused = false;
+			if (gameStarted) {
+				snakeTimer.resume();
+				timer.resume();
+				paused = false;
+			}
 		}
 	}
 
@@ -386,7 +393,7 @@ public class Model {
 			JOptionPane.showMessageDialog(null,
 					snake.getPlayerName() + " YOU LOSE.  Out of bounds.  Your score is: " + getScore(snake),
 					"GAME OVER", JOptionPane.PLAIN_MESSAGE);
-			setHighScores();
+			setHighScores(snake);
 			snakeTimer.suspend();
 
 		} else {
@@ -399,7 +406,7 @@ public class Model {
 				JOptionPane.showMessageDialog(null,
 						snake.getPlayerName() + " YOU LOSE.  You hit poison.  Your score is: " + getScore(snake),
 						"GAME OVER", JOptionPane.PLAIN_MESSAGE);
-				setHighScores();
+				setHighScores(snake);
 				snakeTimer.stop();
 
 			}
@@ -411,7 +418,7 @@ public class Model {
 						JOptionPane.showMessageDialog(null, snake.getPlayerName()
 								+ " YOU LOSE.  You hit the snake.  Your score is: " + getScore(snake), "GAME OVER",
 								JOptionPane.PLAIN_MESSAGE);
-						setHighScores();
+						setHighScores(snake);
 						snakeTimer.stop();
 
 						check = false;
@@ -425,7 +432,7 @@ public class Model {
 						JOptionPane.showMessageDialog(null, snake.getPlayerName()
 								+ " YOU LOSE.  You hit the snake.  Your score is: " + getScore(snake), "GAME OVER",
 								JOptionPane.PLAIN_MESSAGE);
-						setHighScores();
+						setHighScores(snake);
 						snakeTimer.stop();
 
 						check = false;
