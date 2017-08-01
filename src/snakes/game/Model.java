@@ -27,7 +27,7 @@ public class Model {
 	private static String PLAYERNAME2 = "Player 2";
 	private View view;
 	private Snake player1 = new Snake(new RowCol(12, 38), new RowCol(12, 39), LEFTDIRECTION, PLAYERNAME1);
-	private Snake player2 = new Snake(new RowCol(-10, -10), new RowCol(-11, -11), RIGHTDIRECTION, PLAYERNAME2);
+	private Snake player2 ;
 	private Thread timer;
 	private Thread snakeTimer;
 	private boolean paused = true;
@@ -60,25 +60,25 @@ public class Model {
 
 		List<HS> scores = HighScores.getHighScores();
 		if (scores.size() < 10) {
-			scores.add(new HS(player1.getPlayerName(), getScore(player1)));
+			scores.add(new HS(player1.getPlayerName(), getScore(player1))); 
 		} else {
-			for (int i = 0; i < scores.size(); i++) {
-				if (scores.get(i).getScore() < getScore(player1)) {
-					scores.add(new HS(player1.getPlayerName(), getScore(player1)));
+			
+			if (scores.get(scores.size()-1).getScore() < getScore(player1)) {
+				scores.add(new HS(player1.getPlayerName(), getScore(player1)));
+				Collections.sort(scores, new Comparator() {
+					@Override
+					public int compare(Object score1, Object score2) {
+						return (((HS) score2).score - (((HS) score1).score)); // reverse
+																				// order
+																				// of
+																				// scores
+					}
 
-				}
+				});
+				scores.remove(scores.size() - 1);
 			}
-			Collections.sort(scores, new Comparator() {
-				@Override
-				public int compare(Object score1, Object score2) {
-					return (((HS) score2).score - (((HS) score1).score)); // reverse
-																			// order
-																			// of
-																			// scores
-				}
-
-			});
-			scores.remove(scores.size() - 1);
+			
+			
 		}
 		Collections.sort(scores, new Comparator() {
 			@Override
@@ -93,6 +93,16 @@ public class Model {
 
 		HighScores.writeHighScores(scores);
 
+	}
+	
+	public void newTwoPlayerGame(){
+		player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), RIGHTDIRECTION, PLAYERNAME2);
+		PLAYERNAME2 = view.promptForName();
+		numberOfPlayers = 2;
+		showSnake(player2);
+
+		showSnakeBody(player2);
+		newGame();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -242,14 +252,6 @@ public class Model {
 			audio = new AudioFilePlayer();
 		}
 		PLAYERNAME1 = view.promptForName();
-		if (view.promptForTwoPlayer() == 0) {
-
-			PLAYERNAME2 = view.promptForName();
-			numberOfPlayers = 2;
-			showSnake(player2);
-
-			showSnakeBody(player2);
-		}
 		showSnake(player1);
 		showSnakeBody(player1);
 	}

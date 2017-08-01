@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 public class View extends JFrame {
 	public static final String GAME_NAME = "SNAKE GAME";
 	public static final String NEW_GAME = "NEW GAME";
+	public static final String NEW_2_PLAYER_GAME = "MULTIPLAYER GAME";
 	public static final String MENU_NAME = "GAME";
 	public static final String MENU_HELP = "HELP";
 	public static final String HIGH_SCORE = "HIGH SCORES...";
@@ -101,14 +102,18 @@ public class View extends JFrame {
 		helps.setActionCommand(MENU_HELP);
 		helps.addActionListener(listener);
 
-		JMenuItem one = new JMenuItem();
-		one.setText(View.NEW_GAME);
-		one.setActionCommand(View.NEW_GAME);
-		one.addActionListener(listener);
-		JMenuItem two = new JMenuItem();
-		two.setText(View.HIGH_SCORE);
-		two.setActionCommand(View.HIGH_SCORE);
-		two.addActionListener(listener);
+		JMenuItem newGame = new JMenuItem();
+		newGame.setText(View.NEW_GAME);
+		newGame.setActionCommand(View.NEW_GAME);
+		newGame.addActionListener(listener);
+		JMenuItem twoPlayerGame = new JMenuItem();
+		twoPlayerGame.setText(View.NEW_2_PLAYER_GAME);
+		twoPlayerGame.setActionCommand(View.NEW_2_PLAYER_GAME);
+		twoPlayerGame.addActionListener(listener);
+		JMenuItem highScores = new JMenuItem();
+		highScores.setText(View.HIGH_SCORE);
+		highScores.setActionCommand(View.HIGH_SCORE);
+		highScores.addActionListener(listener);
 
 		JMenuItem exit = new JMenuItem();
 		exit.setText(View.EXIT);
@@ -117,8 +122,9 @@ public class View extends JFrame {
 		menuBar.add(menu);
 		menuBar.add(menu2);
 		menu2.add(helps);
-		menu.add(one);
-		menu.add(two);
+		menu.add(newGame);
+		menu.add(twoPlayerGame);
+		menu.add(highScores);
 		menu.add(exit);
 
 	}
