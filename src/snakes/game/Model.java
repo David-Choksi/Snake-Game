@@ -27,7 +27,7 @@ public class Model {
 	private static String PLAYERNAME2 = "Player 2";
 	private View view;
 	private Snake player1 = new Snake(new RowCol(12, 38), new RowCol(12, 39), LEFTDIRECTION, PLAYERNAME1);
-	private Snake player2 ;
+	private Snake player2;
 	private Thread timer;
 	private Thread snakeTimer;
 	private boolean paused = true;
@@ -60,10 +60,10 @@ public class Model {
 
 		List<HS> scores = HighScores.getHighScores();
 		if (scores.size() < 10) {
-			scores.add(new HS(player1.getPlayerName(), getScore(player1))); 
+			scores.add(new HS(player1.getPlayerName(), getScore(player1)));
 		} else {
-			
-			if (scores.get(scores.size()-1).getScore() < getScore(player1)) {
+
+			if (scores.get(scores.size() - 1).getScore() < getScore(player1)) {
 				scores.add(new HS(player1.getPlayerName(), getScore(player1)));
 				Collections.sort(scores, new Comparator() {
 					@Override
@@ -77,8 +77,7 @@ public class Model {
 				});
 				scores.remove(scores.size() - 1);
 			}
-			
-			
+
 		}
 		Collections.sort(scores, new Comparator() {
 			@Override
@@ -94,10 +93,10 @@ public class Model {
 		HighScores.writeHighScores(scores);
 
 	}
-	
-	public void newTwoPlayerGame(){
+
+	public void newTwoPlayerGame() {
 		player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), RIGHTDIRECTION, PLAYERNAME2);
-		PLAYERNAME2 = view.promptForName();
+		PLAYERNAME2 = view.promptForName(PLAYERNAME2);
 		numberOfPlayers = 2;
 		showSnake(player2);
 
@@ -251,7 +250,7 @@ public class Model {
 		if (view.promptForMusic() == 0) {
 			audio = new AudioFilePlayer();
 		}
-		PLAYERNAME1 = view.promptForName();
+		PLAYERNAME1 = view.promptForName(PLAYERNAME1);
 		showSnake(player1);
 		showSnakeBody(player1);
 	}
@@ -406,21 +405,37 @@ public class Model {
 			}
 
 			else {
+				if (numberOfPlayers == 2) {
+					if (snake.checkForSnake(player1, player2)) {
+						timer.stop();
+						JOptionPane.showMessageDialog(null, snake.getPlayerName()
+								+ " YOU LOSE.  You hit the snake.  Your score is: " + getScore(snake), "GAME OVER",
+								JOptionPane.PLAIN_MESSAGE);
+						setHighScores();
+						snakeTimer.stop();
 
-				if (snake.checkForSnake(player1, player2)) {
-					timer.stop();
-					JOptionPane.showMessageDialog(null,
-							snake.getPlayerName() + " YOU LOSE.  You hit the snake.  Your score is: " + getScore(snake),
-							"GAME OVER", JOptionPane.PLAIN_MESSAGE);
-					setHighScores();
-					snakeTimer.stop();
+						check = false;
+					} else if (check) {
+						showSnakeGone(snake);
+						showSnake(snake);
+					}
+				} else {
+					if (snake.checkForSnake(player1)) {
+						timer.stop();
+						JOptionPane.showMessageDialog(null, snake.getPlayerName()
+								+ " YOU LOSE.  You hit the snake.  Your score is: " + getScore(snake), "GAME OVER",
+								JOptionPane.PLAIN_MESSAGE);
+						setHighScores();
+						snakeTimer.stop();
 
-					check = false;
-				} else if (check) {
-					showSnakeGone(snake);
-					showSnake(snake);
+						check = false;
+					} else if (check) {
+						showSnakeGone(snake);
+						showSnake(snake);
+					}
 				}
 			}
+
 		}
 
 	}

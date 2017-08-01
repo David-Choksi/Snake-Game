@@ -63,8 +63,8 @@ public class View extends JFrame {
 
 	}
 
-	public String promptForName() {
-		return JOptionPane.showInputDialog(null, "What is your name?");
+	public String promptForName(String name) {
+		return JOptionPane.showInputDialog(null, "What is your name " + name + "?");
 
 	}
 
