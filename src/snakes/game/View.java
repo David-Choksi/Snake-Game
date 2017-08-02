@@ -6,9 +6,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,8 +43,14 @@ public class View extends JFrame {
 		super(GAME_NAME);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.makeMenu(listener);
+		try {
+			this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("images/Snake_BG.png")))));
+		} catch (IOException e) {
+		}
+		;
 		this.getContentPane().setLayout(new GridLayout(GAME_HEIGHT, GAME_WIDTH));
 		this.addKeyListener(keyListener);
+
 		this.makeLabels(listener);
 		this.setResizable(false);
 		this.getContentPane().setBackground(Color.BLACK);

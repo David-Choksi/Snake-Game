@@ -103,15 +103,15 @@ public class Model {
 
 	@SuppressWarnings("deprecation")
 	public void newGame() {
+		view.clear();
+		view.randomFood(NUMBER_OF_FOOD);
+		view.randomDie(NUMBER_OF_DIE);
 		paused = false;
 		gameStarted = true;
 		player1 = new Snake(new RowCol(12, 38), new RowCol(12, 39), LEFTDIRECTION, PLAYERNAME1);
 		if (numberOfPlayers == 2) {
 			player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), RIGHTDIRECTION, PLAYERNAME2);
 		}
-		view.clear();
-		view.randomFood(NUMBER_OF_FOOD);
-		view.randomDie(NUMBER_OF_DIE);
 		if (!(timer == null)) {
 			timer.stop();
 			snakeTimer.stop();
@@ -248,6 +248,7 @@ public class Model {
 		if (!(name.equals(""))) {
 			PLAYERNAME1 = name;
 		}
+		view.clear();
 		showSnake(player1);
 		showSnakeBody(player1);
 	}
