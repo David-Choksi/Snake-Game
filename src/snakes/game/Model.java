@@ -17,8 +17,15 @@ public class Model {
 	public static final String RIGHTDIRECTION = "images/right.png";
 	public static final String BODY = "images/body.png";
 	public static final String BODYUP = "images/bodyup.png";
+	public static final String P2UPDIRECTION = "images/up_red.png";
+	public static final String P2DOWNDIRECTION = "images/down_red.png";
+	public static final String P2LEFTDIRECTION = "images/left_red.png";
+	public static final String P2RIGHTDIRECTION = "images/right_red.png";
+	public static final String P2BODY = "images/body_red.png";
+	public static final String P2BODYUP = "images/bodyup_red.png";
 	public static final int NUMBER_OF_FOOD = 1;
-	public static final int NUMBER_OF_DIE = 5;
+	public static int NUMBER_OF_DIE = 5;
+	public static int levelNumber = 1;
 	public static final int SNAKE_SPEED = 100;
 	public static int SNAKE_SPEED_TIME = SNAKE_SPEED;
 	public static int TIME_TO_SPEED_UP = 7; // in seconds
@@ -92,7 +99,7 @@ public class Model {
 	}
 
 	public void newTwoPlayerGame() {
-		player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), RIGHTDIRECTION, PLAYERNAME2);
+		player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), P2RIGHTDIRECTION, PLAYERNAME2);
 		PLAYERNAME2 = view.promptForName(PLAYERNAME2);
 		numberOfPlayers = 2;
 		showSnake(player2);
@@ -103,6 +110,7 @@ public class Model {
 
 	@SuppressWarnings("deprecation")
 	public void newGame() {
+		levelNumber = 1;
 		view.clear();
 		view.randomFood(NUMBER_OF_FOOD);
 		view.randomDie(NUMBER_OF_DIE);
@@ -110,7 +118,7 @@ public class Model {
 		gameStarted = true;
 		player1 = new Snake(new RowCol(12, 38), new RowCol(12, 39), LEFTDIRECTION, PLAYERNAME1);
 		if (numberOfPlayers == 2) {
-			player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), RIGHTDIRECTION, PLAYERNAME2);
+			player2 = new Snake(new RowCol(12, 1), new RowCol(12, 0), P2RIGHTDIRECTION, PLAYERNAME2);
 		}
 		if (!(timer == null)) {
 			timer.stop();
@@ -176,6 +184,7 @@ public class Model {
 						showSnake(player1);
 						Thread.sleep(Model.SNAKE_SPEED_TIME);
 						checkFinish(player1);
+
 						if (numberOfPlayers == 2) {
 
 							checkFinish(player2);
@@ -203,8 +212,16 @@ public class Model {
 			File file = new File(BODYUP);
 			ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
 			view.labels[snake.getRow()][snake.getCol()].setIcon(img);
-		} else {
+		} else if (snake.getDirection() == LEFTDIRECTION || snake.getDirection() == RIGHTDIRECTION) {
 			File file = new File(BODY);
+			ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
+			view.labels[snake.getRow()][snake.getCol()].setIcon(img);
+		} else if (snake.getDirection() == P2UPDIRECTION || snake.getDirection() == P2DOWNDIRECTION) {
+			File file = new File(P2BODYUP);
+			ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
+			view.labels[snake.getRow()][snake.getCol()].setIcon(img);
+		} else if (snake.getDirection() == P2LEFTDIRECTION || snake.getDirection() == P2RIGHTDIRECTION) {
+			File file = new File(P2BODY);
 			ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
 			view.labels[snake.getRow()][snake.getCol()].setIcon(img);
 		}
@@ -223,9 +240,17 @@ public class Model {
 		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setText("S");
 		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setBackground(Color.RED);
 		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setForeground(Color.RED);
-		File file = new File(BODY);
-		ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
-		view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setIcon(img);
+		if (snake.getDirection() == RIGHTDIRECTION || snake.getDirection() == LEFTDIRECTION) {
+			File file = new File(BODY);
+			ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
+			view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setIcon(img);
+		} else {
+			File file = new File(P2BODY);
+			ImageIcon img = new ImageIcon(file.getAbsolutePath().toString());
+			view.labels[snake.getBody().get(0).row()][snake.getBody().get(0).col()].setIcon(img);
+
+		}
+
 	}
 
 	public void showSnake(Snake snake) {
@@ -245,7 +270,7 @@ public class Model {
 			audio = new AudioFilePlayer();
 		}
 		String name = view.promptForName(PLAYERNAME1);
-		if (!(name.equals(""))) {
+		if (!(name == null)) {
 			PLAYERNAME1 = name;
 		}
 		view.clear();
@@ -268,8 +293,9 @@ public class Model {
 			}
 		} else {
 			if (numberOfPlayers == 2) {
-				if (!(player2.getDirection().equals(LEFTDIRECTION) || player2.getDirection().equals(RIGHTDIRECTION))) {
-					player2.changeDirection(LEFTDIRECTION);
+				if (!(player2.getDirection().equals(P2LEFTDIRECTION)
+						|| player2.getDirection().equals(P2RIGHTDIRECTION))) {
+					player2.changeDirection(P2LEFTDIRECTION);
 				}
 			}
 		}
@@ -293,8 +319,9 @@ public class Model {
 			}
 		} else {
 			if (numberOfPlayers == 2) {
-				if (!(player2.getDirection().equals(LEFTDIRECTION) || player2.getDirection().equals(RIGHTDIRECTION))) {
-					player2.changeDirection(RIGHTDIRECTION);
+				if (!(player2.getDirection().equals(P2LEFTDIRECTION)
+						|| player2.getDirection().equals(P2RIGHTDIRECTION))) {
+					player2.changeDirection(P2RIGHTDIRECTION);
 				}
 			}
 		}
@@ -316,8 +343,8 @@ public class Model {
 			}
 		} else {
 			if (numberOfPlayers == 2) {
-				if (!(player2.getDirection().equals(UPDIRECTION) || player2.getDirection().equals(DOWNDIRECTION))) {
-					player2.changeDirection(UPDIRECTION);
+				if (!(player2.getDirection().equals(P2UPDIRECTION) || player2.getDirection().equals(P2DOWNDIRECTION))) {
+					player2.changeDirection(P2UPDIRECTION);
 				}
 			}
 		}
@@ -340,8 +367,8 @@ public class Model {
 			}
 		} else {
 			if (numberOfPlayers == 2) {
-				if (!(player2.getDirection().equals(UPDIRECTION) || player2.getDirection().equals(DOWNDIRECTION))) {
-					player2.changeDirection(DOWNDIRECTION);
+				if (!(player2.getDirection().equals(P2UPDIRECTION) || player2.getDirection().equals(P2DOWNDIRECTION))) {
+					player2.changeDirection(P2DOWNDIRECTION);
 				}
 			}
 		}
@@ -402,6 +429,17 @@ public class Model {
 				snake.addLength();
 				View.foodLocation.remove(new RowCol(snake.getRow(), snake.getCol()));
 				view.randomFood(1);
+				if (numberOfPlayers == 1) {
+					if ((player1.getLength() - 1) % 10 == 0) {
+						JOptionPane.showMessageDialog(null,
+								"Congratulations " + player1.getPlayerName() + " you have completed level "
+										+ levelNumber + ".  Press OK to continue to next level.",
+								"LEVEL UP", JOptionPane.PLAIN_MESSAGE);
+						levelNumber++;
+						NUMBER_OF_DIE = 3;
+						view.randomDie(NUMBER_OF_DIE);
+					}
+				}
 			} else if (View.dieLocation.contains(new RowCol(snake.getRow(), snake.getCol()))) {
 				timer.stop();
 				JOptionPane.showMessageDialog(null,

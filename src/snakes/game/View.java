@@ -72,11 +72,14 @@ public class View extends JFrame {
 	}
 
 	public String promptForName(String name) {
-		String newName = JOptionPane.showInputDialog(null, "What is your name " + name + "?");
-		while (newName.contains(",")) {
-			JOptionPane.showMessageDialog(null, "No special Characters please", "ReEnter you name.",
-					JOptionPane.PLAIN_MESSAGE);
-			newName = JOptionPane.showInputDialog(null, "What is your name " + name + "?");
+		String newName = "";
+		newName = JOptionPane.showInputDialog(null, "What is your name " + name + "?");
+		if (!(newName == null)) {
+			while (newName.contains(",")) {
+				JOptionPane.showMessageDialog(null, "No special Characters please", "ReEnter you name.",
+						JOptionPane.PLAIN_MESSAGE);
+				newName = JOptionPane.showInputDialog(null, "What is your name " + name + "?");
+			}
 		}
 		return newName;
 

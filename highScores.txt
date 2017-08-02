@@ -1,10 +1,10 @@
 Player 1,2349
+Player 1,2075
 Player 1,1742
 Player 1,1020
+Player 1,810
+Player 1,768
 Player 1,686
 Player 1,660
-Jason,532
-Player 1,288
-Player 1,252
-Jason,250
-Jason,132
+Player 1,585
+,572

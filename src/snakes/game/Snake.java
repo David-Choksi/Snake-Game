@@ -6,7 +6,7 @@ public class Snake {
 	private int length = 0;
 	private RowCol head;
 	private ArrayList<RowCol> body = new ArrayList<RowCol>();
-	private String direction = Model.LEFTDIRECTION;
+	private String direction;
 	private String playerName = "";
 
 	public void setHead(int row, int col) {
@@ -71,22 +71,19 @@ public class Snake {
 	}
 
 	public boolean checkMove() {
-		if (direction.equals(Model.RIGHTDIRECTION)) {
+		if (direction.equals(Model.RIGHTDIRECTION) || direction.equals(Model.P2RIGHTDIRECTION)) {
 			if (head.col() >= View.GAME_WIDTH - 1) {
 				return false;
 			}
-		}
-		if (direction.equals(Model.LEFTDIRECTION)) {
+		} else if (direction.equals(Model.LEFTDIRECTION) || direction.equals(Model.P2LEFTDIRECTION)) {
 			if (head.col() < 1) {
 				return false;
 			}
-		}
-		if (direction.equals(Model.UPDIRECTION)) {
+		} else if (direction.equals(Model.UPDIRECTION) || direction.equals(Model.P2UPDIRECTION)) {
 			if (head.row() < 1) {
 				return false;
 			}
-		}
-		if (direction.equals(Model.DOWNDIRECTION)) {
+		} else if (direction.equals(Model.DOWNDIRECTION) || direction.equals(Model.P2DOWNDIRECTION)) {
 			if (head.row() >= View.GAME_HEIGHT - 1) {
 				return false;
 			}
@@ -95,16 +92,14 @@ public class Snake {
 	}
 
 	public RowCol nextMove() {
-		if (direction.equals(Model.RIGHTDIRECTION)) {
+		if (direction.equals(Model.RIGHTDIRECTION) || direction.equals(Model.P2RIGHTDIRECTION)) {
 			return new RowCol(head.nextCol());
-		}
-		if (direction.equals(Model.LEFTDIRECTION)) {
+
+		} else if (direction.equals(Model.LEFTDIRECTION) || direction.equals(Model.P2LEFTDIRECTION)) {
 			return new RowCol(head.prevCol());
-		}
-		if (direction.equals(Model.UPDIRECTION)) {
+		} else if (direction.equals(Model.UPDIRECTION) || direction.equals(Model.P2UPDIRECTION)) {
 			return new RowCol(head.prevRow());
-		}
-		if (direction.equals(Model.DOWNDIRECTION)) {
+		} else if (direction.equals(Model.DOWNDIRECTION) || direction.equals(Model.P2DOWNDIRECTION)) {
 			return new RowCol(head.nextRow());
 		}
 		return new RowCol(head);
@@ -119,13 +114,13 @@ public class Snake {
 		body.remove(0);
 		body.add(head);
 
-		if (direction.equals(Model.RIGHTDIRECTION)) {
+		if (direction.equals(Model.RIGHTDIRECTION) || direction.equals(Model.P2RIGHTDIRECTION)) {
 			head = new RowCol(head.nextCol());
-		} else if (direction.equals(Model.LEFTDIRECTION)) {
+		} else if (direction.equals(Model.LEFTDIRECTION) || direction.equals(Model.P2LEFTDIRECTION)) {
 			head = new RowCol(head.prevCol());
-		} else if (direction.equals(Model.UPDIRECTION)) {
+		} else if (direction.equals(Model.UPDIRECTION) || direction.equals(Model.P2UPDIRECTION)) {
 			head = new RowCol(head.prevRow());
-		} else if (direction.equals(Model.DOWNDIRECTION)) {
+		} else if (direction.equals(Model.DOWNDIRECTION) || direction.equals(Model.P2DOWNDIRECTION)) {
 			head = new RowCol(head.nextRow());
 		} else {
 			System.out.println("NOPE"); // Should never happen
