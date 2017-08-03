@@ -112,6 +112,7 @@ public class Model {
 	public void newGame() {
 		levelNumber = 1;
 		view.clear();
+
 		view.randomFood(NUMBER_OF_FOOD);
 		view.randomDie(NUMBER_OF_DIE);
 		paused = false;
