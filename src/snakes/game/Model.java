@@ -206,7 +206,7 @@ public class Model {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("Thread was interrupted.");
 					}
 				}
 
@@ -241,7 +241,7 @@ public class Model {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					System.out.println("Thread was interrupted.");
 				}
 				while (true) {
 					try {
@@ -266,7 +266,7 @@ public class Model {
 						}
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("Thread was interrupted.");
 					}
 				}
 
@@ -412,7 +412,7 @@ public class Model {
 				Thread.sleep(SNAKE_SPEED_TIME);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Thread was interrupted.");
 			}
 		}
 		if (snake.equals(Controller.P1)) {
@@ -437,7 +437,7 @@ public class Model {
 				Thread.sleep(SNAKE_SPEED_TIME);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Thread was interrupted.");
 			}
 		}
 		if (snake.equals(Controller.P1)) {
@@ -462,7 +462,7 @@ public class Model {
 				Thread.sleep(SNAKE_SPEED_TIME);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Thread was interrupted.");
 			}
 		}
 		if (snake.equals(Controller.P1)) {
@@ -485,7 +485,7 @@ public class Model {
 				Thread.sleep(SNAKE_SPEED_TIME);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Thread was interrupted.");
 			}
 		}
 		if (snake.equals(Controller.P1)) {
