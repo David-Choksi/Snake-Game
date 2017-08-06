@@ -91,6 +91,7 @@ public class Model {
 	 * This class gets the High Scores from the HighScores class and displays
 	 * them in a pop-up message dialog.
 	 */
+
 	public void showHighScores() {
 		List<HS> scores = HighScores.getHighScores();
 		String display = "";
@@ -177,6 +178,10 @@ public class Model {
 		showSnake(player2);
 		showSnakeBody(player2);
 		newGame();
+	}
+
+	public void resetNumberOfPlayers() {
+		numberOfPlayers = 1;
 	}
 
 	/**

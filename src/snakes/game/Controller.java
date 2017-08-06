@@ -51,6 +51,7 @@ public class Controller implements ActionListener, KeyListener {
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if (action.equals(View.NEW_GAME)) {
+			model.resetNumberOfPlayers();
 			model.newGame();
 
 		} else if (action.equals(View.HIGH_SCORE)) {
