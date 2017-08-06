@@ -7,14 +7,14 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-public class AudioFilePlayer {
-	private Thread music;
+public abstract class AudioFilePlayer {
+	private static Thread music;
 
 	public AudioFilePlayer() {
 		runner();
 	}
 
-	public void runner() {
+	public static void runner() {
 		Runnable play = new Runnable() {
 
 			@Override

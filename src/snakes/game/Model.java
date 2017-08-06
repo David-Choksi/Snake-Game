@@ -438,7 +438,7 @@ public class Model {
 		this.view = view;
 		// Ask's the player if they'd like to hear some music.
 		if (view.promptForMusic() == 0) {
-			audio = new AudioFilePlayer();
+			AudioFilePlayer.runner();
 		}
 		// Ask's the player for the name
 		String name = view.promptForName(PLAYERNAME1);
