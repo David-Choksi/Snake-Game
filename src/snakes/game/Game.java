@@ -2,7 +2,7 @@ package snakes.game;
 
 public class Game {
 	/**
-	 * Program to run the snakes game.
+	 * Program to run the snakes game
 	 * 
 	 * @param args
 	 *            default expression
