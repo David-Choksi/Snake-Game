@@ -38,7 +38,7 @@ public class AudioFilePlayer {
 					float durationInSeconds = (audioFileLength / (frameSize * frameRate));
 					Thread.sleep((long) (durationInSeconds * 1000));
 				} catch (Exception e) {
-					System.out.println(e);
+					System.out.println("");
 				}
 			}
 		};

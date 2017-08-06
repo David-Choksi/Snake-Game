@@ -38,6 +38,7 @@ public class HighScores {
 			out.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			System.out.println("File containing high scores not found.");
 		}
 
 	}
@@ -59,9 +60,11 @@ public class HighScores {
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println("File not available.");
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			System.out.println("File containing high scores not found.");
 		}
 		return name;
 	}
