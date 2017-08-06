@@ -124,14 +124,17 @@ public class Model {
 
 			// If the list is larger than it takes the smallest score, removes
 			// it, and adds the newest high score.
-			if (scores.get(scores.size() - 1).getScore() < getScore(snake)) {
+			if (Integer.valueOf((scores.get(scores.size() - 1).getScore()).toString()) < getScore(snake)) {
 				scores.add(new HS(snake.getPlayerName(), getScore(snake)));
 				Collections.sort(scores, new Comparator() {
 					@Override
 					public int compare(Object score1, Object score2) {
+						
+						Integer score1Int = Integer.valueOf((((HS)score1).score).toString());
+						Integer score2Int = Integer.valueOf((((HS)score2).score).toString());
 
 						// So does this have to be done or is it already done??
-						return (((HS) score2).score - (((HS) score1).score)); // reverse
+						return (score2Int - score1Int ); // reverse
 																				// order
 																				// of
 																				// scores
@@ -144,8 +147,14 @@ public class Model {
 		}
 		Collections.sort(scores, new Comparator() {
 			@Override
+		
+			
 			public int compare(Object score1, Object score2) {
-				return (((HS) score2).score - (((HS) score1).score)); // reverse
+				
+				Integer score1Int = Integer.valueOf((((HS)score1).score).toString());
+				Integer score2Int = Integer.valueOf((((HS)score2).score).toString());
+				
+				return (score2Int - score1Int); // reverse
 																		// order
 																		// of
 																		// scores
