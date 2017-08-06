@@ -23,15 +23,16 @@ public class AudioFilePlayer {
 					File file = new File("jb.wav");
 					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file.getAbsoluteFile());
 					AudioFormat format = audioInputStream.getFormat();
-					
-					//This gets the clip, sets the position of the frame to 0, then loops the clip continuously.
-					//NEXT UPDATE: Different songs to choose from, possibly from a menu.
+
+					// This gets the clip, sets the position of the frame to 0,
+					// then loops the clip continuously.
+					// NEXT UPDATE: Different songs to choose from, possibly
+					// from a menu.
 					Clip clip = AudioSystem.getClip();
 					clip.open(audioInputStream);
 					clip.setFramePosition(0);
 					clip.loop(Clip.LOOP_CONTINUOUSLY);
-					
-					
+
 					long audioFileLength = file.length();
 					int frameSize = format.getFrameSize();
 					float frameRate = format.getFrameRate();
@@ -53,5 +54,5 @@ public class AudioFilePlayer {
 	public void resume() {
 		music.notify();
 	}
-	
+
 }

@@ -54,8 +54,7 @@ public class Snake {
 	}
 
 	public boolean checkForSnake(Snake p1, Snake p2) {
-		if (p1.getBody().contains(p1.getHead()) || p2.getBody().contains(p2.getHead())
-				|| p2.getBody().contains(p1.getHead()) || p1.getHead().equals(p2.getHead())) {
+		if (p2.getBody().contains(p1.getHead()) || p1.getHead().equals(p2.getHead())) {
 			return true;
 		}
 
