@@ -10,6 +10,7 @@ import java.util.List;
 
 public class HighScores {
 
+	//Polymorphism is used here.
 	public List<HS> scores = new ArrayList<HS>();
 	private static String FILENAME = "highScores.txt";
 

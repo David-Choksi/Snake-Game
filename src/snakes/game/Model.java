@@ -231,6 +231,8 @@ public class Model {
 					changeHeadToBody(player1);
 					showSnake(player1);
 					showSnakeBody(player1);
+					
+					//If there are two players, take care of showing the second player.
 					if (numberOfPlayers == 2) {
 						changeHeadToBody(player2);
 						showSnake(player2);
@@ -243,7 +245,7 @@ public class Model {
 				}
 				while (true) {
 					try {
-						//This is the same thing but for the second player.
+						//This is the moving the second snake player
 						doneOnce = false;
 						if (numberOfPlayers == 2) {
 							changeHeadToBody(player2);
@@ -251,6 +253,7 @@ public class Model {
 							showSnakeGone(player2);
 							showSnake(player2);
 						}
+						//This takes care of movement for the first player
 						changeHeadToBody(player1);
 						player1.move();
 						showSnakeGone(player1);
@@ -259,7 +262,6 @@ public class Model {
 						checkFinish(player1);
 
 						if (numberOfPlayers == 2) {
-
 							checkFinish(player2);
 						}
 					} catch (InterruptedException e) {
@@ -378,23 +380,32 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * This sets up the game board for the player. It take's the view, sets it,
+	 * prompts the player for music as well as the player's name, then resets the game board
+	 * and places the fresh snake into it.
 	 * @param view a view object
 	 */
 	public void setView(View view) {
 		this.view = view;
+		//Ask's the player if they'd like to hear some music.
 		if (view.promptForMusic() == 0) {
 			audio = new AudioFilePlayer();
 		}
+		//Ask's the player for the name
 		String name = view.promptForName(PLAYERNAME1);
 		if (!(name == null)) {
 			PLAYERNAME1 = name;
 		}
+		//Resets the view and places the snake back on the board.
 		view.clear();
 		showSnake(player1);
 		showSnakeBody(player1);
 	}
 
+	/**
+	 * Manages the movement of the players' snakes. Depending on which 	
+	 * @param snake
+	 */
 	public void leftPressed(String snake) {
 		if (doneOnce) {
 			try {
