@@ -129,15 +129,15 @@ public class Model {
 				Collections.sort(scores, new Comparator() {
 					@Override
 					public int compare(Object score1, Object score2) {
-						
-						Integer score1Int = Integer.valueOf((((HS)score1).score).toString());
-						Integer score2Int = Integer.valueOf((((HS)score2).score).toString());
+
+						Integer score1Int = Integer.valueOf((((HS) score1).score).toString());
+						Integer score2Int = Integer.valueOf((((HS) score2).score).toString());
 
 						// So does this have to be done or is it already done??
-						return (score2Int - score1Int ); // reverse
-																				// order
-																				// of
-																				// scores
+						return (score2Int - score1Int); // reverse
+														// order
+														// of
+														// scores
 					}
 
 				});
@@ -147,17 +147,16 @@ public class Model {
 		}
 		Collections.sort(scores, new Comparator() {
 			@Override
-		
-			
+
 			public int compare(Object score1, Object score2) {
-				
-				Integer score1Int = Integer.valueOf((((HS)score1).score).toString());
-				Integer score2Int = Integer.valueOf((((HS)score2).score).toString());
-				
+
+				Integer score1Int = Integer.valueOf((((HS) score1).score).toString());
+				Integer score2Int = Integer.valueOf((((HS) score2).score).toString());
+
 				return (score2Int - score1Int); // reverse
-																		// order
-																		// of
-																		// scores
+												// order
+												// of
+												// scores
 			}
 
 		});
@@ -712,21 +711,14 @@ public class Model {
 
 		}
 
+		@SuppressWarnings("rawtypes")
 		public static List<HS> getHighScores() {
 			List<HS> name = new ArrayList<HS>();
-			String line = "1";
+
 			try {
-				@SuppressWarnings("resource")
 				BufferedReader br = new BufferedReader(new FileReader(FILENAME));
 				try {
-					while (!(line == null)) {
-						line = br.readLine();
-						if (!(line == null)) {
-							name.add(new HS(line.substring(0, line.indexOf(",")),
-									Integer.parseInt(line.substring(line.indexOf(",") + 1))));
-						}
-					}
-
+					name = getLines(br, name);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					System.out.println("File not available.");
@@ -734,6 +726,17 @@ public class Model {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				System.out.println("File containing high scores not found.");
+			}
+			return name;
+		}
+
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public static List<HS> getLines(BufferedReader br, List<HS> name) throws IOException {
+			String line = br.readLine();
+			if (!(line == null)) {
+				name.add(new HS(line.substring(0, line.indexOf(",")),
+						Integer.parseInt(line.substring(line.indexOf(",") + 1))));
+				name = getLines(br, name);
 			}
 			return name;
 		}
