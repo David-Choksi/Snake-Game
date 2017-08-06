@@ -97,7 +97,7 @@ public class Model {
 	/**
 	 * This sets the high scores which are found in a file, and sorts them from
 	 * highest score to lowest score. If there are more than 10 scores, the list 
-	 * takes the lowest score and erases it, making space available for the newest high score. 
+	 * takes the lowest score and erases it, making space available, for the newest high score. 
 	 * @param snake a snake object
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
