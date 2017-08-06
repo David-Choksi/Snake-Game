@@ -322,9 +322,9 @@ public class Model {
 	 */
 	public void changeHeadToBody(Snake snake) {
 
-		// The background that the snake is set in is first set with some red
-		// color
-		// just in case the image for the snake does not load through.
+		// The background that the snake is set in is first set with some red color
+		// just in case the image for the snake does not load through. 
+		//EXAMPLE OF AN ARRAY
 		view.labels[snake.getRow()][snake.getCol()].setText("S");
 		view.labels[snake.getRow()][snake.getCol()].setBackground(Color.RED);
 		view.labels[snake.getRow()][snake.getCol()].setForeground(Color.RED);
@@ -364,8 +364,7 @@ public class Model {
 	 * If the snake is dead or for some reason the snake needs to be taken off
 	 * the game board, this method erases it.
 	 * 
-	 * @param snake
-	 *            a snake object
+	 * @param snake a snake object
 	 */
 	public void showSnakeGone(Snake snake) {
 
@@ -453,9 +452,10 @@ public class Model {
 	}
 
 	/**
-	 * Manages the movement of the players' snakes. Depending on which
+	 * Manages the movement of the players' snakes. Depending on which direction the snake is
+	 * heading it will change it to the left direction.
 	 * 
-	 * @param snake
+	 * @param snake an instance of the snake class
 	 */
 	public void leftPressed(String snake) {
 		if (doneOnce) {

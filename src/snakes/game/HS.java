@@ -5,6 +5,8 @@ public class HS<S, N> {
 	public S name;
 	public N score;
 
+	
+	//EXAMPLE OF OVERLOADED CONSTRUCTOR
 	public HS(S name, N score) {
 		this.name = name;
 		this.score = score;
