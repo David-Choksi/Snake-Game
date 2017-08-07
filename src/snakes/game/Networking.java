@@ -7,22 +7,37 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
+/**
+ * 
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
+ *         Papajani
+ */
 public class Networking {
 	private static final int SOCKET_BUFFER_SIZE = 4 * 1024;
 
+	/**
+	 * A default constructor used in order to instantiate an object of the Networking class.
+	 */
 	private Networking() {
 
 	}
 
+	/**
+	 * This method handles creating a new 
+	 */
 	public static void runServer() {
 		// network listener
 		Runnable www = new Runnable() {
 			@Override
 			public void run() {
 				try {
+					//Creates and open's a socket.
 					ServerSocket serverSocket = new ServerSocket(88);
 					while (true) {
+						//Establishes a connection with the server coekcet.
 						Socket clientSocket = serverSocket.accept();
+						
+						//Open and inputstream and an output stream from the socket
 						PrintWriter outWeb = new PrintWriter(clientSocket.getOutputStream(), true);
 						BufferedInputStream inWeb = new BufferedInputStream(clientSocket.getInputStream());
 
