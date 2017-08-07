@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * a model and a view. It handles logic figured out from the Model and changes 
  * the view for the user accordingly.
  * 
- * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
  *         Papajani
  *
  */

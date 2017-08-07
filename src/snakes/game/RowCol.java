@@ -4,10 +4,10 @@ import java.util.Objects;
 
 /**
  *  
- * Creates a simple Row and column coordinates object, which handles cartesian coordinates
+ * Creates a simple Row and column coordinates object, which handles Cartesian coordinates
  * on a 2D plane.
  * 
- * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
  * Papajani
  * 
  */

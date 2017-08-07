@@ -4,7 +4,7 @@ package snakes.game;
  * The high score class is a generic class which stores a name and a number representing the player
  * and the score the player has, respectively. 
  * 
- * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
  *         Papajani
  *
  * @param <S> the name of the player

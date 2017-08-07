@@ -27,7 +27,7 @@ import javax.swing.JOptionPane;
  * to name a few.
  * 
  * 
- * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
  *         Papajani
  *
  */
@@ -770,7 +770,7 @@ public class Model {
 
 		// Polymorphism is used here. The List class is the declared class, but the 
 		//actual class is ArrayList.
-		public List<HS> scores = new ArrayList<HS>();
+		private static List<HS> scores = new ArrayList<HS>();
 		private static String FILENAME = "highScores.txt";
 
 		/**
@@ -778,7 +778,7 @@ public class Model {
 		 * type, HS.
 		 * @param score
 		 */
-		public HighScores(List<HS> score) {
+		private HighScores(List<HS> score) {
 			this.scores = score;
 			//Writes the highscores to a file.
 			writeHighScores(scores);
@@ -787,7 +787,7 @@ public class Model {
 		/**
 		 * Default constructor for HighScores.
 		 */
-		public HighScores() {
+		private HighScores() {
 
 		}
 
@@ -796,7 +796,7 @@ public class Model {
 		 * then writes it onto a file.
 		 * @param scores a list which holds all of the scores.
 		 */
-		public void setScores(List<HS> scores) {
+		private void setScores(List<HS> scores) {
 			this.scores = scores;
 			writeHighScores(scores);
 		}
@@ -805,7 +805,7 @@ public class Model {
 		 * A method which writes the high scores from a list onto a text file.
 		 *  @param scores a list which holds all of the scores.
 		 */
-		public static void writeHighScores(List<HS> scores) {
+		private static void writeHighScores(List<HS> scores) {
 			try {
 				//Writes to a text file.
 				PrintWriter out = new PrintWriter(FILENAME);
@@ -861,7 +861,7 @@ public class Model {
 		 * @throws IOException an exception if there is an error in input/output
 		 */
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-		public static List<HS> getLines(BufferedReader br, List<HS> name) throws IOException {
+		private static List<HS> getLines(BufferedReader br, List<HS> name) throws IOException {
 			String line = br.readLine();
 			if (!(line == null)) {
 				name.add(new HS(line.substring(0, line.indexOf(",")),

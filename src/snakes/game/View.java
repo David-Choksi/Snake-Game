@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 /**
  * A view for the snake puzzle game. This class handles showing the
  * snake game to the end user.
- * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
  *         Papajani
  */
 @SuppressWarnings("serial")

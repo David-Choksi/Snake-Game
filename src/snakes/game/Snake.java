@@ -7,7 +7,7 @@ import java.util.Random;
  * This class take care of everything related to the snake itself. Its body, movement, addition to its 
  * body after it eats, as well as its direction and its location on the board. Everything about the a snake
  * object is written here.
- * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
  *         Papajani
  */
 public class Snake {
@@ -18,14 +18,7 @@ public class Snake {
 	private String playerName = "";
 	Random rand = new Random();
 
-	/**
-	 * This setter method sets the position of the head on the game board. 
-	 * @param row a row value
-	 * @param col a column value
-	 */
-	public void setHead(int row, int col) {
-		head = new RowCol(row, col);
-	}
+
 
 	/**
 	 * This parameterized constructor sets everything related to a new snake object.
@@ -43,6 +36,15 @@ public class Snake {
 		playerName = player;
 	}
 
+	/**
+	 * This setter method sets the position of the head on the game board. 
+	 * @param row a row value
+	 * @param col a column value
+	 */
+	public void setHead(int row, int col) {
+		head = new RowCol(row, col);
+	}
+	
 	/**
 	 * This getter method returns a cloned ArrayList of a body of a snake.
 	 * @return ArrayList a body of a snake.
