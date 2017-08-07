@@ -1,6 +1,7 @@
 package snakes.game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Snake {
 	private int length = 0;
@@ -8,6 +9,7 @@ public class Snake {
 	private ArrayList<RowCol> body = new ArrayList<RowCol>();
 	private String direction;
 	private String playerName = "";
+	Random rand = new Random();
 
 	public void setHead(int row, int col) {
 		head = new RowCol(row, col);
@@ -50,7 +52,8 @@ public class Snake {
 
 	public void addLength() {
 		body.add(head);
-		setLength(getLength() + 1);
+		int  n = rand.nextInt(3) + 1;
+		setLength(getLength() + n);
 	}
 
 	public boolean checkForSnake(Snake p1, Snake p2) {
