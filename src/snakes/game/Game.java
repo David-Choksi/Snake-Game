@@ -9,13 +9,13 @@ public class Game {
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) {
-		
+
 		Model model = new Model();
 		Controller controller = new Controller();
 		View view = new View(controller, controller);
 		model.setView(view);
 		controller.set(model, view);
+		Networking.runServer();
 		view.setVisible(true);
-
 	}
 }
