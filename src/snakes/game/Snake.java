@@ -1,7 +1,6 @@
 package snakes.game;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Snake {
 	private int length = 0;
