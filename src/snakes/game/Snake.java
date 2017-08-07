@@ -54,7 +54,7 @@ public class Snake {
 		int  n = rand.nextInt(3) + 1;
 		if (n == 1){
 			body.add(head);
-			//setLength(getLength() + 1);
+			//.setLength(getLength() + 1);
 		}
 		
 		else if (n == 2){
