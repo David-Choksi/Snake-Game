@@ -1,12 +1,9 @@
+package snakes.game;
 import static org.junit.Assert.*;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import snakes.game.Model;
-import snakes.game.RowCol;
-import snakes.game.Snake;
 
 public class getScoreTest {
 	
