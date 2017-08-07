@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -58,19 +60,41 @@ public class View extends JFrame {
 		this.pack();
 
 	}
-
+	
+	/**
+	 * The method shows a dialog box with the option to choose if you want music running while playing the game. The dialog box has the
+	 * options "Yes", "No", and an "X" symbol in the corner. 
+	 * @postcondition will either play the music, or will stay silent. 
+	 * @return an int value corresponding to the option selected or CLOSED_OPTION if the "X" is clicked.
+	 */
+	
 	public int promptForMusic() {
 		return JOptionPane.showOptionDialog(this, "Do you want to play some James Brown?", null, 0, 0, null, null,
 				"Music");
-
 	}
-
+	
+	/**
+	 * The method shows a dialog box when the Multiplayer Game option is clicked in the Game menu. The dialog box allows the user to 
+	 * enter a 2nd player's name. The dialog box has the options "OK", "Cancel", and an "X" symbol in the corner. 
+	 * @postcondition will display the player name entered, or null if nothing is entered. 
+	 * @return an int value corresponding to the option selected or CLOSED_OPTION if the "X" is clicked.
+	 */
+	
 	public int promptForTwoPlayer() {
 		return JOptionPane.showOptionDialog(this, "Do you want to play 2 Player?", null, 0, 0, null, null,
 				"Number of players");
-
 	}
-
+	
+	/**
+	 * The method shows a dialog box when the Game is launched. The dialog box allows the user to 
+	 * enter the 1st/main player's name. The dialog box has the options "OK", "Cancel", and an "X" symbol in the corner. 
+	 * If an invalid string name is entered, the user is alerted and then taken back to the original dialog box to enter a name.  
+	 * @precondition The inputed String name from the user must not contain a "," as that character is used in the High Score display format. 
+	 * @postcondition will display the player name entered, or null if nothing is entered. 
+	 * @param name - a string inputed by the user that cannot contain a "," character.
+	 * @return the inputed string from the user.
+	 */
+	
 	public String promptForName(String name) {
 		String newName = "";
 		newName = JOptionPane.showInputDialog(null, "What is your name " + name + "?");
@@ -82,9 +106,13 @@ public class View extends JFrame {
 			}
 		}
 		return newName;
-
 	}
-
+	
+	/**
+	 * This method clears the View and resets the game. The snake position is reset and all shown food are cleared. 
+	 * The various art, background, and user name are all reset. 
+	 */
+	
 	public void clear() {
 
 		for (int i = 0; i < GAME_HEIGHT; i++) {
@@ -101,11 +129,12 @@ public class View extends JFrame {
 	}
 
 	/**
-	 * Make the menu bar for the view. The menu bar has one menu named "Game",
-	 * and that menu has two menu items named "New" and "Exit".
+	 * Make the menu bar for the view. The menu bar has 2 menu options named GAME and HELP. The Help menu has a submenu option called
+	 * HELP that pops up a dialog box with some useful instructions (press F2 to start new game, Spacebar to pause the game). The Game
+	 * menu has 4 submenu options; the first named New Game is to start a new game, the second named Multiplayer Game is to start a 
+	 * Multiplayer game, the 3rd is High Scores and shows the current high scores, and finally the Exit options terminates the game.
 	 * 
-	 * @param listener
-	 *            the controller to listen for the menu events
+	 * @param listener - a listener object that allows the controller to listen for the menu events (like clicks by user on the menu options)
 	 */
 	private void makeMenu(ActionListener listener) {
 		JMenuBar menuBar = new JMenuBar();
@@ -143,16 +172,13 @@ public class View extends JFrame {
 		menu.add(twoPlayerGame);
 		menu.add(highScores);
 		menu.add(exit);
-
 	}
 
 	/**
-	 * Creates the buttons for the view. This method should create (this.rows *
-	 * this.cols) buttons. See the Lab 7 document for the button labels. The
-	 * action command should be equal to the text of the button label.
+	 * This method creates the buttons for the view. This method should create (this.rows *this.cols) buttons. 
+	 * See the Lab 7 document for the button labels. The action command should be equal to the text of the button label.
 	 * 
-	 * @param listener
-	 *            the controller that listens for button press events
+	 *@param listener - a listener object that allows the controller to listen for the menu events (like clicks by user on the menu options)
 	 */
 	private void makeLabels(ActionListener listener) {
 		this.labels = new JLabel[GAME_HEIGHT][GAME_WIDTH];
@@ -169,9 +195,19 @@ public class View extends JFrame {
 				add(b);
 			}
 		}
-
 	}
 
+	/**
+	 * This method creates a random food across the map that the snake traverses. If a food unit is eaten, it will cause the snake's 
+	 * body to grow. The food units have their own custom icon. The food unit are added randomly across the map grid, and only 1 is shown
+	 * to the user, and a new one is generated at a random location when the previous one is eaten.   
+	 * 
+	 * @precondition the max int value is never negative. 
+	 * @param max - a value determined by from the Model, and starts at 1. After 6 food units are eaten, a poison unit is created. After 10
+	 * food units are eaten, the level is advanced. 
+	 * @param latitude - a valid latitude value, in the given range.
+	 */
+	
 	public void randomFood(int max) {
 		boolean done = false;
 		for (int k = 0; k < max; k++) {
@@ -193,6 +229,16 @@ public class View extends JFrame {
 		}
 	}
 
+	/**
+	 * This method creates random poison/toxic food units across the map that the snake traverses. If a poisoned/toxic food unit is eaten, 
+	 * it will cause the game to end, and your score is shown. The poisoned/toxic food units have their own custom icon. 
+	 * The poisoned units are added randomly across the map grid, and gradually increase in number as more food units are eaten by the snake.   
+	 * 
+	 * @precondition the max int value is never negative. 
+	 * @param max - a value determined by from the Model, and starts at 5. After 6 food units are eaten, a poison unit is created. Once a 
+	 * poison unit is eaten, the game ends. 
+	 */
+	
 	public void randomDie(int max) {
 		for (int k = 0; k < max; k++) {
 			Random rdm = new Random();
