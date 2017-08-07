@@ -147,8 +147,8 @@ public class Model {
 			}
 
 		}
-		scores.sort((score1, score2) -> Integer.compare(Integer.valueOf((((HS) score1).score).toString()), Integer.valueOf((((HS) score2).score).toString())));
-		
+		scores.sort((score1, score2) -> Integer.compare(Integer.valueOf((((HS) score2).score).toString()), Integer.valueOf((((HS) score1).score).toString())));
+//		
 //		Collections.sort(scores, new Comparator() {
 //			@Override
 //
