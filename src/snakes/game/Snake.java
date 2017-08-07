@@ -17,7 +17,7 @@ public class Snake {
 
 	public Snake(RowCol head, RowCol body, String direction, String player) {
 		setLength(2);
-		this.head = new RowCol(head);
+		this.head = new RowCol(head);	
 		this.body.add(new RowCol(body));
 		this.body.add(new RowCol(body));
 		this.direction = direction;
@@ -51,9 +51,26 @@ public class Snake {
 	}
 
 	public void addLength() {
-		body.add(head);
 		int  n = rand.nextInt(3) + 1;
-		setLength(getLength() + n);
+		if (n == 1){
+			body.add(head);
+			setLength(getLength() + 1);
+		}
+		
+		else if (n == 2){
+			body.add(head);
+			body.add(head);
+			setLength(getLength() + 2);
+		}
+		
+		else if (n == 3){
+			body.add(head);
+			body.add(head);
+			body.add(head);
+			setLength(getLength() + 3);
+		}
+//		body.add(head);
+//		setLength(getLength() + 1);
 	}
 
 	public boolean checkForSnake(Snake p1, Snake p2) {

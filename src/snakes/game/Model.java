@@ -368,8 +368,7 @@ public class Model {
 	 * If the snake is dead or for some reason the snake needs to be taken off
 	 * the game board, this method erases it.
 	 * 
-	 * @param snake
-	 *            a snake object
+	 * @param snake a snake object
 	 */
 	public void showSnakeGone(Snake snake) {
 
@@ -413,8 +412,7 @@ public class Model {
 	/**
 	 * This method shows the snake's head in a specific direction it is heading.
 	 * 
-	 * @param snake
-	 *            a snake object
+	 * @param snake a snake object
 	 */
 	public void showSnake(Snake snake) {
 
