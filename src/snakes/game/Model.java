@@ -21,9 +21,10 @@ import javax.swing.JOptionPane;
  * manages the data and fundamental behaviors of a program. it is the data and
  * data-management portion of the program.
  * 
- * Specifically applying to this instance, the model takes care of...
- * 
- ****************** HAVE TO FINISH COMMENT HERE******************
+ * Specifically applying to this instance, the model takes care of the backbone of the
+ * rest of the game. It puts together all of the logic which handles the highscores, 
+ * movement of the snake game, as well as resetting and setting up the game board,
+ * to name a few.
  * 
  * 
  * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana

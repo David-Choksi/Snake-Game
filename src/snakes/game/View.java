@@ -22,11 +22,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 /**
- * A view for the snake puzzle game.
- *
+ * A view for the snake puzzle game. This class handles showing the
+ * snake game to the end user.
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana
+ *         Papajani
  */
 @SuppressWarnings("serial")
 public class View extends JFrame {
+	
+	// This takes care of the constants so there are no magic numbers or constants in code.
+	// **************************************************************************
 	public static final String GAME_NAME = "SNAKE GAME";
 	public static final String NEW_GAME = "NEW GAME";
 	public static final String NEW_2_PLAYER_GAME = "MULTIPLAYER GAME";
@@ -37,10 +42,22 @@ public class View extends JFrame {
 	public static final String UP_ICON = "UPHead.gif";
 	public static final int GAME_WIDTH = 40;
 	public static final int GAME_HEIGHT = 25;
+	// **************************************************************************
+	
+	//This takes care of the grid of labels which represent the grid that the snake will traverse in game.
 	public JLabel[][] labels;
+	
+	//This represents the locations of the food locations and the poison locations, respectively.
 	public static final ArrayList<RowCol> foodLocation = new ArrayList<RowCol>();
 	public static final ArrayList<RowCol> dieLocation = new ArrayList<RowCol>();
 
+	/**
+	 * This constructor handles the creation and display of the game board to the end user. 
+	 * The window is first displayed, and then the labels, listeners, and layouts are 
+	 * added and packed so that all of its contents are set at a preferred, optimal size. 
+	 * @param listener an ActionListener designed to listen for the user's button clicks.
+	 * @param keyListener a KeyListener designed to listen for the user's keyboard inputs.
+	 */
 	public View(ActionListener listener, KeyListener keyListener) {
 		super(GAME_NAME);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
