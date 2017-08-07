@@ -596,6 +596,10 @@ public class Model {
 		return (snake.getLength() - 2) * counter;
 
 	} 
+	
+	public int getCounter(){
+		return this.counter; 
+	}
 
 	/**
 	 * This is the button to start a new game. If a new game is agreed to start, then the old game is stopped,
