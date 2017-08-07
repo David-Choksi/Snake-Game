@@ -4,7 +4,7 @@ derp,2256
 Player 1,2075
 Player 1,1742
 c,1425
+,1175
 Mason,1045
 Player 1,1020
 Jason,972
-derp,884

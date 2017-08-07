@@ -595,7 +595,7 @@ public class Model {
 	 * @param snake a snake object
 	 * @return int an int representing the length of the snake + the counter of the game time.
 	 */
-	public int getScore(Snake snake) throws RuntimeException {
+	public int getScore(Snake snake){
 		
 		int score = (snake.getLength() - 2) * counter;
 		
@@ -606,7 +606,7 @@ public class Model {
 		
 		//If any of the values being used are negative, throw an exception.
 		if (score < 0 || snake.getLength() < 0 || counter < 0){
-			throw new RuntimeException("There cannot be negative values");
+			throw new NoNegativesAllowedException("There cannot be negative values");
 		}
 		
 		return score;

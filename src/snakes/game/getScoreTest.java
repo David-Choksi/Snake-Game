@@ -70,7 +70,7 @@ public class getScoreTest {
 	}
 	
 	@Test
-	public void test_Standard_2() {
+	public void test_Standard_2(){
 		
 		Model memes = new Model();
 		RowCol coord = new RowCol(24, 35);
@@ -142,7 +142,7 @@ public class getScoreTest {
 	}
 	
 	@Test
-	public void test_Negative_Exception_Both_Values() {
+	public void test_Negative_Exception_Both_Values(){
 		
 		Model memes = new Model();
 		RowCol coord = new RowCol(24, 35);
@@ -160,7 +160,7 @@ public class getScoreTest {
 	}
 	
 	@Test
-	public void test_Upper_Boundary() {
+	public void test_Upper_Boundary(){
 		
 		Model memes = new Model();
 		RowCol coord = new RowCol(24, 35);
