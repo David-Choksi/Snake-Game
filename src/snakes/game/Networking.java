@@ -23,7 +23,10 @@ public class Networking {
 	}
 
 	/**
-	 * This method handles creating a new 
+	 * This method handles establishing a connection between a client and a server through a network socket,
+	 * then reading and writing to that server through an input and output stream.
+	 * 
+	 *  After it is finished, the streams are closed, and so are the sockets.
 	 */
 	public static void runServer() {
 		// network listener
