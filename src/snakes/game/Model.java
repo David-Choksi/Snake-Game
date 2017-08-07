@@ -259,8 +259,7 @@ public class Model {
 			 */
 			public void run() {
 				try {
-					// This takes care of the movement of the snake, as well as
-					// the
+					// This takes care of the movement of the snake, as well
 					// visualizing the snakes head and body on the game board.
 					changeHeadToBody(player1);
 					showSnake(player1);
@@ -321,14 +320,13 @@ public class Model {
 	 * game board. As the snake moves, the head moves forward, and this takes
 	 * care of moving the body in the position that the head just was in.
 	 * 
-	 * @param snake
-	 *            takes in a snake object
+	 * @param snake takes in a snake object
 	 */
 	public void changeHeadToBody(Snake snake) {
 
-		// The background that the snake is set in is first set with some red
-		// color
-		// just in case the image for the snake does not load through.
+		// The background that the snake is set in is first set with some red color
+		// just in case the image for the snake does not load through. 
+		//EXAMPLE OF AN ARRAY
 		view.labels[snake.getRow()][snake.getCol()].setText("S");
 		view.labels[snake.getRow()][snake.getCol()].setBackground(Color.RED);
 		view.labels[snake.getRow()][snake.getCol()].setForeground(Color.RED);
@@ -383,7 +381,7 @@ public class Model {
 	 * This method takes care of the movement of the snake's body as it moves
 	 * across the game board.
 	 * 
-	 * @param snake
+	 * @param snake a snake object
 	 */
 	public void showSnakeBody(Snake snake) {
 		// If the snake's body cannot show, a red block is shown in it's place.
@@ -434,8 +432,7 @@ public class Model {
 	 * prompts the player for music as well as the player's name, then resets
 	 * the game board and places the fresh snake into it.
 	 * 
-	 * @param view
-	 *            a view object
+	 * @param view a view object
 	 */
 	public void setView(View view) {
 		this.view = view;
@@ -455,9 +452,10 @@ public class Model {
 	}
 
 	/**
-	 * Manages the movement of the players' snakes. Depending on which
+	 * Manages the movement of the players' snakes. Depending on which direction the snake is
+	 * heading it will change it to the left direction.
 	 * 
-	 * @param snake
+	 * @param snake an instance of the snake class
 	 */
 	public void leftPressed(String snake) {
 		if (doneOnce) {
@@ -468,11 +466,14 @@ public class Model {
 				System.out.println("Thread was interrupted.");
 			}
 		}
+		//If the snake is moving in any other direction other than the right direction, it will change to the left direction.
 		if (snake.equals(Controller.P1)) {
 			if (!(player1.getDirection().equals(LEFTDIRECTION) || player1.getDirection().equals(RIGHTDIRECTION))) {
 				player1.changeDirection(LEFTDIRECTION);
 			}
 		} else {
+			
+			//This takes care of the second player.
 			if (numberOfPlayers == 2) {
 				if (!(player2.getDirection().equals(P2LEFTDIRECTION)
 						|| player2.getDirection().equals(P2RIGHTDIRECTION))) {
@@ -484,6 +485,11 @@ public class Model {
 		doneOnce = true;
 	}
 
+	/**
+	 * Manages the movement of the players' snakes. Depending on which direction the snake is
+	 * heading it will change it to the right direction. 
+	 * @param snake a snake object
+	 */
 	public void rightPressed(String snake) {
 		if (doneOnce) {
 			try {
@@ -493,11 +499,14 @@ public class Model {
 				System.out.println("Thread was interrupted.");
 			}
 		}
+		//If the snake is moving in any other direction other than the left or the right direction, 
+		//it will change to the right direction.
 		if (snake.equals(Controller.P1)) {
 			if (!(player1.getDirection().equals(LEFTDIRECTION) || player1.getDirection().equals(RIGHTDIRECTION))) {
 				player1.changeDirection(RIGHTDIRECTION);
 
 			}
+			//This takes care of the second player and its right direction.
 		} else {
 			if (numberOfPlayers == 2) {
 				if (!(player2.getDirection().equals(P2LEFTDIRECTION)
@@ -509,6 +518,11 @@ public class Model {
 		doneOnce = true;
 	}
 
+	/**
+	 * Manages the movement of the players' snakes. Depending on which direction the snake is
+	 * heading it will change it to the up direction. 
+	 * @param snake a snake object
+	 */
 	public void upPressed(String snake) {
 		if (doneOnce) {
 			try {
@@ -532,6 +546,11 @@ public class Model {
 		doneOnce = true;
 	}
 
+	/**
+	 * Manages the movement of the players' snakes. Depending on which direction the snake is
+	 * heading it will change it to the down direction. 
+	 * @param snake
+	 */
 	public void downPressed(String snake) {
 		if (doneOnce) {
 			try {
@@ -556,11 +575,20 @@ public class Model {
 		doneOnce = true;
 	}
 
+	/**
+	 * Gets the score for the snake object. 
+	 * @param snake a snake object
+	 * @return int an int representing the length of the snake + the counter of the game time.
+	 */
 	public int getScore(Snake snake) {
 		return (snake.getLength() - 2) * counter;
 
-	}
+	} 
 
+	/**
+	 * This is the button to start a new game. If a new game is agreed to start, then the old game is stopped,
+	 * the timers are reset, and then a new game is started.
+	 */
 	@SuppressWarnings("deprecation")
 	public void f2Pressed() {
 		if (!paused) {
@@ -577,6 +605,10 @@ public class Model {
 		}
 	}
 
+	/**
+	 * This is the pause button for the game. If f2 is pressed, it pauses the game. It works by pausing 
+	 * the timer that moves the snake as well as the timer in the game itself.
+	 */
 	@SuppressWarnings("deprecation")
 	public void spacePressed() {
 		if (!paused) {
@@ -592,10 +624,15 @@ public class Model {
 		}
 	}
 
+	/**
+	 * 
+	 * @param snake a snake object
+	 */
 	@SuppressWarnings("deprecation")
 	public void checkFinish(Snake snake) {
 		boolean check = true;
 
+		//If the snake goes over the bounds of the game, the game is over.
 		if (!(snake.checkMove())) {
 
 			timer.suspend();
@@ -605,12 +642,14 @@ public class Model {
 			setHighScores(snake);
 			snakeTimer.suspend();
 
+			//If the snake's head goes over a food object, the snake grows by one length.
 		} else {
 			if (View.foodLocation.contains(new RowCol(snake.getRow(), snake.getCol()))) {
 				snake.addLength();
 				View.foodLocation.remove(new RowCol(snake.getRow(), snake.getCol()));
 				view.randomFood(1);
 				if (numberOfPlayers == 1) {
+					//If the snake's length hits 10, the level's move 
 					if ((player1.getLength() - 1) % 10 == 0) {
 						JOptionPane.showMessageDialog(null,
 								"Congratulations " + player1.getPlayerName() + " you have completed level "

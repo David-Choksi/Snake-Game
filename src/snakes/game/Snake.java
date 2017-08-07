@@ -50,7 +50,7 @@ public class Snake {
 		return head.col();
 	}
 
-	public void addLength() {
+	public void addLength() {	
 		int  n = rand.nextInt(3) + 1;
 		if (n == 1){
 			body.add(head);
