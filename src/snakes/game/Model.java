@@ -81,8 +81,8 @@ public class Model {
 	// ************************************************************************
 
 	/**
-	 * This is an empty Model class constructor. It is here to adhere to the MVC
-	 * software architecture.
+	 * This is an empty Model class constructor. It is here to properly instantiate any 
+	 * objects of the Model class.
 	 */
 	public Model() {
 
@@ -801,7 +801,7 @@ public class Model {
      * Papajani
 	 *
 	 */
-	public static class HighScores {
+	public static final class HighScores {
 
 		// Polymorphism is used here. The List class is the declared class, but the 
 		//actual class is ArrayList.
