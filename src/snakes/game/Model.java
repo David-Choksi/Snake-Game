@@ -532,11 +532,15 @@ public class Model {
 				System.out.println("Thread was interrupted.");
 			}
 		}
+		//If the snake is moving in any other direction other than the up or the down direction, 
+		//it will change to the up direction.
 		if (snake.equals(Controller.P1)) {
 			if (!(player1.getDirection().equals(UPDIRECTION) || player1.getDirection().equals(DOWNDIRECTION))) {
 				player1.changeDirection(UPDIRECTION);
 			}
 		} else {
+			
+			//The same but for the second player.
 			if (numberOfPlayers == 2) {
 				if (!(player2.getDirection().equals(P2UPDIRECTION) || player2.getDirection().equals(P2DOWNDIRECTION))) {
 					player2.changeDirection(P2UPDIRECTION);
@@ -560,12 +564,16 @@ public class Model {
 				System.out.println("Thread was interrupted.");
 			}
 		}
+		
+		//If the snake is moving in any other direction other than the up or the down direction, 
+		//it will change to the down direction.
 		if (snake.equals(Controller.P1)) {
 			if (!(player1.getDirection().equals(UPDIRECTION) || player1.getDirection().equals(DOWNDIRECTION))) {
 				player1.changeDirection(DOWNDIRECTION);
 
 			}
 		} else {
+			//This is the same but for the second player.
 			if (numberOfPlayers == 2) {
 				if (!(player2.getDirection().equals(P2UPDIRECTION) || player2.getDirection().equals(P2DOWNDIRECTION))) {
 					player2.changeDirection(P2DOWNDIRECTION);
@@ -591,14 +599,20 @@ public class Model {
 	 */
 	@SuppressWarnings("deprecation")
 	public void f2Pressed() {
+		
+		//If the game is not paused, stop the game.
 		if (!paused) {
 			snakeTimer.suspend();
 			timer.suspend();
 		}
+		
+		//This is the prompt for a new game
 		int check = JOptionPane.showOptionDialog(view, "Do you want to start a new game?", null, 0, 0, null, null,
 				"New Game");
 		if (check == 0) {
 			newGame();
+			
+			//If the game is paused, resume the game
 		} else {
 			snakeTimer.resume();
 			timer.resume();
@@ -611,11 +625,15 @@ public class Model {
 	 */
 	@SuppressWarnings("deprecation")
 	public void spacePressed() {
+		
+		//If the game is not paused, pause the game.
 		if (!paused) {
 			snakeTimer.suspend();
 			timer.suspend();
 			paused = true;
 		} else {
+			
+			//If the game is paused, resume the game.
 			if (gameStarted) {
 				snakeTimer.resume();
 				timer.resume();
@@ -625,7 +643,11 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * This method checks where the snake is on the game board and acts according to 
+	 * its status. If the snake is over the bounds of the game, it's game over.
+	 * If the snake is over a food object, it grows larger. If the snake hits a 
+	 * certain length, then the next level is loaded. If the snake hits poison, it's game 
+	 * over as well.
 	 * @param snake a snake object
 	 */
 	@SuppressWarnings("deprecation")
@@ -648,8 +670,12 @@ public class Model {
 				snake.addLength();
 				View.foodLocation.remove(new RowCol(snake.getRow(), snake.getCol()));
 				view.randomFood(1);
+				
+				//This occurs if there is only 1 player.
 				if (numberOfPlayers == 1) {
-					//If the snake's length hits 10, the level's move 
+					
+					//If the snake's length hits 10, the level's move on to a new one,
+					//with more poison objects on the game board.
 					if ((player1.getLength() - 1) % 10 == 0) {
 						JOptionPane.showMessageDialog(null,
 								"Congratulations " + player1.getPlayerName() + " you have completed level "
@@ -660,6 +686,8 @@ public class Model {
 						view.randomDie(NUMBER_OF_DIE);
 					}
 				}
+				
+				//If the snakes hit poison, then the game is over.
 			} else if (View.dieLocation.contains(new RowCol(snake.getRow(), snake.getCol()))) {
 				timer.stop();
 				JOptionPane.showMessageDialog(null,
@@ -671,7 +699,10 @@ public class Model {
 			}
 
 			else {
+				//If there are two players
 				if (numberOfPlayers == 2) {
+					
+					//If the players hit themselves or the other snake, then game over happens.
 					if (snake.checkForSnake(player1, player2)) {
 						timer.stop();
 						JOptionPane.showMessageDialog(null, snake.getPlayerName()
@@ -706,45 +737,83 @@ public class Model {
 
 	}
 
+	/**
+	 * This is a getter method for the audio file for the game.
+	 * @return AudioFilePlayer a file that can play music!
+	 */
 	public AudioFilePlayer getAudio() {
 		return audio;
 	}
 
+	/**
+	 * This is a setter method for the audio file for the game.
+	 * @param audio an audio file that has music!
+	 */
 	public void setAudio(AudioFilePlayer audio) {
 		this.audio = audio;
 	}
 
 	// ******************************************************************
 	// ******************************************************************
+	// ******************************************************************
+	
+	//INNER CLASS HIGHSCORES
 
+	/**
+	 * The class that manages I/O of the high scores of the game.
+	 * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana
+     * Papajani
+	 *
+	 */
 	public static class HighScores {
 
-		// Polymorphism is used here.
+		// Polymorphism is used here. The List class is the declared class, but the 
+		//actual class is ArrayList.
 		public List<HS> scores = new ArrayList<HS>();
 		private static String FILENAME = "highScores.txt";
 
+		/**
+		 * One of the constructors that takes in a list of the generic class
+		 * type, HS.
+		 * @param score
+		 */
 		public HighScores(List<HS> score) {
 			this.scores = score;
+			//Writes the highscores to a file.
 			writeHighScores(scores);
 		}
 
+		/**
+		 * Default constructor for HighScores.
+		 */
 		public HighScores() {
 
 		}
 
+		/**
+		 * A setter method which sets the high scores of the game,
+		 * then writes it onto a file.
+		 * @param scores a list which holds all of the scores.
+		 */
 		public void setScores(List<HS> scores) {
 			this.scores = scores;
 			writeHighScores(scores);
 		}
 
+		/**
+		 * A method which writes the high scores from a list onto a text file.
+		 *  @param scores a list which holds all of the scores.
+		 */
 		public static void writeHighScores(List<HS> scores) {
 			try {
+				//Writes to a text file.
 				PrintWriter out = new PrintWriter(FILENAME);
+				
+				//Goes through the arraylist which holds the scores and writes each to the file.
 				for (int i = 0; i < scores.size(); i++) {
 					out.println(scores.get(i).getName() + "," + scores.get(i).getScore());
 
 				}
-
 				out.close();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -753,10 +822,17 @@ public class Model {
 
 		}
 
+		/**
+		 * Looks at the file which contains the high scores and reads it,
+		 * then stores it in an arrayList. 
+		 * @return List a list which contains HS, or also high score objects.
+		 */
 		@SuppressWarnings("rawtypes")
 		public static List<HS> getHighScores() {
+			
 			List<HS> name = new ArrayList<HS>();
 
+			//Tries to read off of the file which contains the high scores.
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(FILENAME));
 				try {
@@ -772,6 +848,17 @@ public class Model {
 			return name;
 		}
 
+		/**
+		 * AN EXAMPLE OF RECURSION
+		 * 
+		 * This recursive method walks through the lines in a file 
+		 * and adds it into an ArrayList of type HS. It then returns that arrayList.
+		 * 
+		 * @param br the bufferedReader which reads the lines in the file
+		 * @param name an ArrayList which holds the high scores.
+		 * @return List an arrayList which holds the new high scores.
+		 * @throws IOException an exception if there is an error in input/output
+		 */
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public static List<HS> getLines(BufferedReader br, List<HS> name) throws IOException {
 			String line = br.readLine();
