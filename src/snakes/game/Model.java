@@ -124,7 +124,7 @@ public class Model {
 			scores.add(new HS(snake.getPlayerName(), getScore(snake)));
 		} else {
 
-			// If the list is larger than it takes the smallest score, removes
+			// If the list is larger then it takes the smallest score, removes
 			// it, and adds the newest high score.
 			if (Integer.valueOf((scores.get(scores.size() - 1).getScore()).toString()) < getScore(snake)) {
 				scores.add(new HS(snake.getPlayerName(), getScore(snake)));
@@ -147,21 +147,24 @@ public class Model {
 			}
 
 		}
-		Collections.sort(scores, new Comparator() {
-			@Override
-
-			public int compare(Object score1, Object score2) {
-
-				Integer score1Int = Integer.valueOf((((HS) score1).score).toString());
-				Integer score2Int = Integer.valueOf((((HS) score2).score).toString());
-
-				return (score2Int - score1Int); // reverse
-												// order
-												// of
-												// scores
-			}
-
-		});
+		scores.sort((score1, score2) -> Integer.compare(Integer.valueOf((((HS) score1).score).toString()), Integer.valueOf((((HS) score2).score).toString())));
+		
+//		Collections.sort(scores, new Comparator() {
+//			@Override
+//
+//			public int compare(Object score1, Object score2) {
+//
+//				Integer score1Int = Integer.valueOf((((HS) score1).score).toString());
+//				Integer score2Int = Integer.valueOf((((HS) score2).score).toString());
+//
+//				return (score2Int - score1Int); // reverse
+//												// order
+//												// of
+//												// scores
+//			}
+//
+//		}
+//		);
 
 		HighScores.writeHighScores(scores);
 

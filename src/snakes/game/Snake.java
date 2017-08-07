@@ -66,7 +66,7 @@ public class Snake {
 	/**
 	 * A getter method which returns the player's name of a snake.
 	 * @return String an appropriate player name.
-	 */
+	 */	
 	public String getPlayerName() {
 		return playerName;
 	}
@@ -83,6 +83,7 @@ public class Snake {
 	 * A getter method which returns the row of the head of a snake.
 	 * @return int a row of the snake's head.
 	 */
+	
 	public int getRow() {
 		return head.row();
 	}
