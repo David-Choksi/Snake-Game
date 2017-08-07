@@ -589,16 +589,44 @@ public class Model {
 
 	/**
 	 * Gets the score for the snake object. 
+	 * @precondition that the snake's length - 2 multiplied by the counter doesn't reach the max value for integers.
+	 * @precondition that there are no negative values being used
+	 * @postcondition returns an int value representing the score.
 	 * @param snake a snake object
 	 * @return int an int representing the length of the snake + the counter of the game time.
 	 */
-	public int getScore(Snake snake) {
-		return (snake.getLength() - 2) * counter;
+	public int getScore(Snake snake) throws RuntimeException {
+		
+		int score = (snake.getLength() - 2) * counter;
+		
+		//If the score is too big, make it an arbitrarily large number.
+		if (score > 10000000 || counter > 100000 || snake.getLength() > 10000){
+			score = 1000000000;
+		}
+		
+		//If any of the values being used are negative, throw an exception.
+		if (score < 0 || snake.getLength() < 0 || counter < 0){
+			throw new RuntimeException("There cannot be negative values");
+		}
+		
+		return score;
 
 	} 
 	
+	/**
+	 * A getter method for the counter field.
+	 * @return int a counter for the game's time.
+	 */
 	public int getCounter(){
 		return this.counter; 
+	}
+	
+	/**
+	 * A setter method for the game's time, counter.
+	 * @param newCount a new value to set the count. 
+	 */
+	public void setCounter(int newCount){
+		 this.counter = newCount;
 	}
 
 	/**
