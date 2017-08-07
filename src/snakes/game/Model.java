@@ -91,6 +91,7 @@ public class Model {
 	 * This class gets the High Scores from the HighScores class and displays
 	 * them in a pop-up message dialog.
 	 */
+
 	public void showHighScores() {
 		List<HS> scores = HighScores.getHighScores();
 		String display = "";
@@ -177,6 +178,10 @@ public class Model {
 		showSnake(player2);
 		showSnakeBody(player2);
 		newGame();
+	}
+
+	public void resetNumberOfPlayers() {
+		numberOfPlayers = 1;
 	}
 
 	/**
@@ -405,8 +410,7 @@ public class Model {
 	/**
 	 * This method shows the snake's head in a specific direction it is heading.
 	 * 
-	 * @param snake
-	 *            a snake object
+	 * @param snake a snake object
 	 */
 	public void showSnake(Snake snake) {
 
@@ -434,7 +438,7 @@ public class Model {
 		this.view = view;
 		// Ask's the player if they'd like to hear some music.
 		if (view.promptForMusic() == 0) {
-			audio = new AudioFilePlayer();
+			AudioFilePlayer.runner();
 		}
 		// Ask's the player for the name
 		String name = view.promptForName(PLAYERNAME1);
