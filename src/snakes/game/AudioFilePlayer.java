@@ -8,11 +8,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 /** 
- * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Christiana
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
  *         Papajani
- * This is an abstract class which enables the input/output and control of a particular audio file chosen.
+ * This is a class which enables the input/output and control of a particular audio file chosen.
  */
-public abstract class AudioFilePlayer {
+public class AudioFilePlayer extends AudioFileSkeleton {
 
     private static Thread music;
 
