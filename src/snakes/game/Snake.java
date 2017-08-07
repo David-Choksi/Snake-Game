@@ -54,23 +54,23 @@ public class Snake {
 		int  n = rand.nextInt(3) + 1;
 		if (n == 1){
 			body.add(head);
-			setLength(getLength() + 1);
+			//setLength(getLength() + 1);
 		}
 		
 		else if (n == 2){
 			body.add(head);
 			body.add(head);
-			setLength(getLength() + 2);
+			//setLength(getLength() + 2);
 		}
 		
 		else if (n == 3){
 			body.add(head);
 			body.add(head);
 			body.add(head);
-			setLength(getLength() + 3);
+			//setLength(getLength() + 3);
 		}
 //		body.add(head);
-//		setLength(getLength() + 1);
+		setLength(getLength() + n);
 	}
 
 	public boolean checkForSnake(Snake p1, Snake p2) {
