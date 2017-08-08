@@ -1,10 +1,10 @@
-a,2880
-Player 1,2349
-derp,2256
-Player 1,2075
-Player 1,1742
-c,1425
-,1175
-Mason,1045
-Player 1,1020
-Jason,972
+a,288
+Player 1,234
+derp,225
+Player 1,207
+Player 1,174
+c,142
+,117
+Mason,104
+Player 1,102
+Jason,97
