@@ -5,6 +5,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+/**
+ * Testing class used to make sure that methods are working properly.
+ * 
+ * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
+ *         Papajani
+ *
+ */
 public class getScoreTest {
 	
 

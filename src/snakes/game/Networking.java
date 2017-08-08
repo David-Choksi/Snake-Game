@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.List;
 
 /**
+ * Class used to implement networking functionality to the Snake game.
  * 
  * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
  *         Papajani

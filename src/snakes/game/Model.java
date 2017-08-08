@@ -557,7 +557,7 @@ public class Model {
 	/**
 	 * Manages the movement of the players' snakes. Depending on which direction the snake is
 	 * heading it will change it to the down direction. 
-	 * @param snake
+	 * @param snake a snake object
 	 */
 	public void downPressed(String snake) {
 		if (doneOnce) {

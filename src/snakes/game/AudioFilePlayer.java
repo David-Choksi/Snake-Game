@@ -8,9 +8,10 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 /** 
+ * This is a class which enables the input/output and control of a particular audio file chosen.
+ * 
  * @author Jason Skinner, Leroy Nguyen, Dawood Choksi, Alessa Ivascu, Kristiana
  *         Papajani
- * This is a class which enables the input/output and control of a particular audio file chosen.
  */
 public class AudioFilePlayer extends AudioFileSkeleton {
 

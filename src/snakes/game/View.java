@@ -222,7 +222,6 @@ public class View extends JFrame {
 	 * @precondition the max int value is never negative. 
 	 * @param max - a value determined by from the Model, and starts at 1. After 6 food units are eaten, a poison unit is created. After 10
 	 * food units are eaten, the level is advanced. 
-	 * @param latitude - a valid latitude value, in the given range.
 	 */
 	
 	public void randomFood(int max) {
